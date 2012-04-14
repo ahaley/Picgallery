@@ -1,0 +1,3 @@
+[submodule "vendor/Dropbox"]
+	path = vendor/Dropbox
+	url = https://github.com/BenTheDesigner/Dropbox.git
