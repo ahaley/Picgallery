@@ -1,5 +1,6 @@
 <?php
 
+require_once 'PHPUnit/Framework/TestCase.php';
 require_once 'FileHelper.php';
 
 class FileHelperTest extends PHPUnit_Framework_TestCase

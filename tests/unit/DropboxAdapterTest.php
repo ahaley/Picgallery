@@ -1,8 +1,7 @@
 <?php
 
-require_once 'Dropbox/DropboxAdapter.php';
-
-use \Picgallery\Dropbox;
+require_once 'PHPUnit/Framework/TestCase.php';
+require_once 'DropboxAdapter.php';
 
 class DropboxAdapterTest extends PHPUnit_Framework_TestCase
 {
@@ -11,9 +10,21 @@ class DropboxAdapterTest extends PHPUnit_Framework_TestCase
 		// arrange
 		$body = new stdClass;
 		$body->contents = array(
-			(object)array('path' => 'path/file1.png', 'size' => '1.2kb', 'mime_type' => 'image/png'),
-			(object)array('path' => 'path/file2.txt', 'size' => '1.2kb', 'mime_type' => 'application/text'),
-			(object)array('path' => 'path/file3.png', 'size' => '1.2kb', 'mime_type' => 'image/png')
+			(object)array(
+				'path' => 'path/file1.png',
+				'size' => '1.2kb',
+				'mime_type' => 'image/png'
+			),
+			(object)array(
+				'path' => 'path/file2.txt',
+				'size' => '1.2kb',
+				'mime_type' => 'application/text'
+			),
+			(object)array(
+				'path' => 'path/file3.png',
+				'size' => '1.2kb',
+				'mime_type' => 'image/png'
+			)
 		);
 		$metadata = array('body' => $body);
 		$dropbox = $this->getMock('stdObject', array('metaData'));
@@ -21,7 +32,7 @@ class DropboxAdapterTest extends PHPUnit_Framework_TestCase
 			->method('metaData')
 			->will($this->returnValue($metadata));
 
-		$adapter = new DropboxAdapter($dropbox);
+		$adapter = new \Picgallery\DropboxAdapter($dropbox);
 
 		// act
 		$result = $adapter->getImageList();

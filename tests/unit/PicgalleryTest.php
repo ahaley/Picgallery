@@ -1,5 +1,6 @@
 <?php
 
+require_once 'PHPUnit/Framework/TestCase.php';
 require_once 'Picgallery.php';
 require_once 'PicgalleryTestContext.php';
 
