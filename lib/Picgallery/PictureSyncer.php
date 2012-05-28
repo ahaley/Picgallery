@@ -4,7 +4,7 @@ namespace Picgallery;
 
 require_once 'IPictureRepository.php';
 
-class PictureSync
+class PictureSyncer
 {
 	private $repository;
 	
@@ -13,9 +13,9 @@ class PictureSync
 		$this->repository = $repository;
 	}
 
-	public function updateImageList($image_list)
+	public function mapImageExistence($imageList)
 	{
-		foreach ($image_list as $image) {
+		foreach ($imageList as $image) {
 			$photoId = $this->repository->imageExists(
                 $image->file
             );
@@ -28,6 +28,6 @@ class PictureSync
 			}
 		}
 	
-		return $image_list;
+		return $imageList;
 	}
 }

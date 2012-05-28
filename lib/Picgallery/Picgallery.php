@@ -5,7 +5,7 @@ namespace Picgallery;
 require_once 'GoogleSession.php';
 require_once 'PicasaAdapter.php';
 require_once 'DropboxAdapter.php';
-require_once 'PictureSync.php';
+require_once 'PictureSyncer.php';
 
 class Picgallery
 {
@@ -15,7 +15,7 @@ class Picgallery
 
 	private $_dropboxAdapter;
 
-	private $_imageSync;
+	private $_pictureSyncer;
 
 	public static function create($dropboxKey, $dropboxSecret, $googleUser, $googleSession, $nextUrl)
 	{
@@ -33,22 +33,22 @@ class Picgallery
 			$nextUrl
 		);
 		
-		$pictureSync = new PictureSync($picasaAdapter);
+		$pictureSyncer = new PictureSyncer($picasaAdapter);
 		
-		return new Picgallery($picasaAdapter, $dropboxAdapter, $pictureSync);
+		return new Picgallery($picasaAdapter, $dropboxAdapter, $pictureSyncer);
 	}
 
-	public function __construct($picasaAdapter, $dropboxAdapter, $imageSync)
+	public function __construct($picasaAdapter, $dropboxAdapter, $pictureSyncer)
 	{
 		$this->_picasaAdapter = $picasaAdapter;
 		$this->_dropboxAdapter = $dropboxAdapter;
-		$this->_imageSync = $imageSync;
+		$this->_pictureSyncer = $pictureSyncer;
 	}
 
-	public function getPictureList()
+	public function getImageList()
 	{
 		$imageList = $this->_dropboxAdapter->getImageList();
-		return $this->_imageSync->updateImageList($imageList);
+		return $this->_pictureSyncer->mapImageExistence($imageList);
 	}
 
 }

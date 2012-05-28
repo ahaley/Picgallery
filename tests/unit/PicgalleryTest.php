@@ -38,18 +38,18 @@ class PicgalleryTest extends PHPUnit_Framework_TestCase
 	{
 		// arrange
 		$context = new PicgalleryTestContext($this);
-		$imageList = array();
-		$context->wireImageSync($imageList);
+		$expectedImageList = array();
+		$context->wireImageSync($expectedImageList);
 		$picgallery = new \Picgallery\Picgallery(
 			$context->getPicasa(),
 			$context->getDropbox(),
-			$context->getPictureSync()
+			$context->getPictureSyncer()
 		);
 		
 		// act
-		$pictureList = $picgallery->getPictureList();
+		$imageList = $picgallery->getImageList();
 
 		// assert
-		$this->assertEquals($imageList, $pictureList);
+		$this->assertEquals($expectedImageList, $imageList);
 	}
 }
