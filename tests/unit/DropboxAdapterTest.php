@@ -5,9 +5,34 @@ require_once 'DropboxAdapter.php';
 
 class DropboxAdapterTest extends PHPUnit_Framework_TestCase
 {
-	public function test_Given_Metadata_Will_Return_Image_List()
+	/**
+	 * @test
+	 */
+	public function Adapter_Will_Extract_Image_List_From_Dropbox_Obj()
 	{
 		// arrange
+		$adapter = new \Picgallery\DropboxAdapter($this->createDropboxObject());
+
+		// act
+		$result = $adapter->getImageList();
+
+		// assert
+		$this->assertEquals(2, count($result));
+		$this->assertEquals('path/file1.png', $result[0]->file);
+		$this->assertEquals('path/file3.png', $result[1]->file);
+	}
+	
+	private function createDropboxObject()
+	{
+		$dropbox = $this->getMock('stdObject', array('metaData'));
+		$dropbox->expects($this->once())
+			->method('metaData')
+			->will($this->returnValue($this->createMetadata()));
+		return $dropbox;
+	}
+	
+	private function createMetadata()
+	{
 		$body = new stdClass;
 		$body->contents = array(
 			(object)array(
@@ -27,19 +52,6 @@ class DropboxAdapterTest extends PHPUnit_Framework_TestCase
 			)
 		);
 		$metadata = array('body' => $body);
-		$dropbox = $this->getMock('stdObject', array('metaData'));
-		$dropbox->expects($this->once())
-			->method('metaData')
-			->will($this->returnValue($metadata));
-
-		$adapter = new \Picgallery\DropboxAdapter($dropbox);
-
-		// act
-		$result = $adapter->getImageList();
-
-		// assert
-		$this->assertEquals(2, count($result));
-		$this->assertEquals('path/file1.png', $result[0]->file);
-		$this->assertEquals('path/file3.png', $result[1]->file);
+		return $metadata;
 	}
 }
