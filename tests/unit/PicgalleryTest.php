@@ -43,7 +43,7 @@ class PicgalleryTest extends PHPUnit_Framework_TestCase
 		$picgallery = new \Picgallery\Picgallery(
 			$context->getPicasa(),
 			$context->getDropbox(),
-			$context->getPictureSyncer()
+			$context->getImageSyncer()
 		);
 		
 		// act

@@ -1,24 +1,24 @@
 <?php
 
 require_once 'PHPUnit/Framework/TestCase.php';
-require_once 'PictureSyncer.php';
+require_once 'ImageSyncer.php';
 
 
-class PictureSyncerTest extends PHPUnit_Framework_TestCase
+class ImageSyncerTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 * @test
 	 */
 	public function Map_Image_Existence_Will_Return_In_Repository_Mapping()
 	{
-        $this->GivenAPictureSyncer();
+        $this->GivenAImageSyncer();
         $this->WhenICallMapImageExistence();
         $this->ThenIShouldSeeImagesMappedByExistence();
     }
 
-    private $picture_syncer;
+    private $image_syncer;
 
-    private function GivenAPictureSyncer()
+    private function GivenAImageSyncer()
     {
     	$repository = $this->getMock('Picgallery\ImageRepository', array('imageExists'));
 		
@@ -26,8 +26,8 @@ class PictureSyncerTest extends PHPUnit_Framework_TestCase
 				   ->method('imageExists')
 				   ->will($this->returnCallback('callbackFileExists'));
 
-        $picture_syncer = new Picgallery\PictureSyncer($repository);
-        $this->picture_syncer = $picture_syncer;
+        $image_syncer = new Picgallery\ImageSyncer($repository);
+        $this->image_syncer = $image_syncer;
     }
 
     private $mapped_list;
@@ -40,7 +40,7 @@ class PictureSyncerTest extends PHPUnit_Framework_TestCase
 			(object)array('file' => 'image3.png')
 		);
 	
-		$this->mapped_list = $this->picture_syncer->mapImageExistence($image_list);
+		$this->mapped_list = $this->image_syncer->mapImageExistence($image_list);
     }
 
     private function ThenIShouldSeeImagesMappedByExistence()

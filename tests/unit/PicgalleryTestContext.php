@@ -5,11 +5,11 @@ class PicgalleryTestContext
 	private $_testCase;
 	private $_dropbox;
 	private $_picasa;
-	private $_pictureSyncer;
+	private $_imageSyncer;
 
 	public function getDropbox() { return $this->_dropbox; }
 	public function getPicasa() { return $this->_picasa; }
-	public function getPictureSyncer() { return $this->_pictureSyncer; }
+	public function getImageSyncer() { return $this->_imageSyncer; }
 
 	public function __construct($testCase)
 	{
@@ -17,7 +17,7 @@ class PicgalleryTestContext
 		$this->_picasa = $testCase->getMock('\Picgallery\PicasaRepository');
 		$this->_dropbox = $testCase->getMock('\Picgallery\DropboxAdapter', 
 			array('getImageList'));
-		$this->_pictureSyncer = $testCase->getMock('\Picgallery\PictureSyncer',
+		$this->_imageSyncer = $testCase->getMock('\Picgallery\ImageSyncer',
 			array('mapImageExistence'),
 			array($this->_picasa)
 		);
@@ -29,7 +29,7 @@ class PicgalleryTestContext
 		$this->getDropbox()->expects($testCase->once())
 			->method('getImageList')
 			->will($testCase->returnValue($imageList));
-		$this->getPictureSyncer()->expects($testCase->once())
+		$this->getImageSyncer()->expects($testCase->once())
 			->method('mapImageExistence')
 			->with($testCase->equalTo($imageList))
 			->will($testCase->returnValue($imageList));

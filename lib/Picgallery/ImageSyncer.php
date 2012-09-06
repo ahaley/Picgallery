@@ -4,7 +4,7 @@ namespace Picgallery;
 
 require_once 'ImageRepository.php';
 
-class PictureSyncer
+class ImageSyncer
 {
 	private $repository;
 	
