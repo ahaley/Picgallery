@@ -13,9 +13,9 @@ require_once 'Zend/Loader.php';
 \Zend_Loader::loadClass('Zend_Gdata_Photos_AlbumQuery');
 \Zend_Loader::loadClass('Zend_Gdata_Photos_AlbumEntry');
 
-require_once 'IPictureRepository.php';
+require_once 'ImageRepository.php';
 
-class PicasaAdapter implements IPictureRepository
+class PicasaRepository implements ImageRepository
 {
 	private $_album = 'Picgallery';
 	private $_service;
@@ -30,7 +30,7 @@ class PicasaAdapter implements IPictureRepository
 		
 		$client = \Zend_Gdata_AuthSub::getHttpClient($googleToken);
 		$service = new \Zend_Gdata_Photos($client);
-		$adapter = new PicasaAdapter($service, $googleUser);
+		$adapter = new PicasaRepository($service, $googleUser);
 		if (!$adapter->albumExists())
 			$adapter->createAlbum();
 		return $adapter;

@@ -2,13 +2,13 @@
 
 namespace Picgallery;
 
-require_once 'IPictureRepository.php';
+require_once 'ImageRepository.php';
 
 class PictureSyncer
 {
 	private $repository;
 	
-	public function __construct(IPictureRepository $repository)
+	public function __construct(ImageRepository $repository)
 	{
 		$this->repository = $repository;
 	}

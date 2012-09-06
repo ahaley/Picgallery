@@ -20,7 +20,7 @@ class PictureSyncerTest extends PHPUnit_Framework_TestCase
 
     private function GivenAPictureSyncer()
     {
-    	$repository = $this->getMock('Picgallery\IPictureRepository', array('imageExists'));
+    	$repository = $this->getMock('Picgallery\ImageRepository', array('imageExists'));
 		
 		$repository->expects($this->any())
 				   ->method('imageExists')
@@ -53,7 +53,7 @@ class PictureSyncerTest extends PHPUnit_Framework_TestCase
 }
 
 /**
- * callback to handle emulating IPictureRepository:::imageExists
+ * callback to handle emulating ImageRepository:::imageExists
  */
 
 function callbackFileExists()

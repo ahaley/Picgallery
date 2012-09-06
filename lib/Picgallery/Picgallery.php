@@ -3,7 +3,7 @@
 namespace Picgallery; 
 
 require_once 'GoogleSession.php';
-require_once 'PicasaAdapter.php';
+require_once 'PicasaRepository.php';
 require_once 'DropboxAdapter.php';
 require_once 'PictureSyncer.php';
 
@@ -11,7 +11,7 @@ class Picgallery
 {
 	const GoogleError = 0;
 
-	private $_picasaAdapter;
+	private $_imageRepository;
 
 	private $_dropboxAdapter;
 
@@ -19,11 +19,11 @@ class Picgallery
 
 	public static function create($dropboxKey, $dropboxSecret, $googleUser, $googleSession, $nextUrl)
 	{
-		$picasaAdapter = PicasaAdapter::create($googleUser, $googleSession);
-		if ($picasaAdapter === null) {
+		$imageRepository = PicasaRepository::create($googleUser, $googleSession);
+		if ($imageRepository === null) {
 			$result = new \stdClass;
 			$result->error = Picgallery::GoogleError;
-			$result->authUrl = PicasaAdapter::getAuthUrl($nextUrl);
+			$result->authUrl = PicasaRepository::getAuthUrl($nextUrl);
 			return $result;
 		}
 
@@ -33,14 +33,14 @@ class Picgallery
 			$nextUrl
 		);
 		
-		$pictureSyncer = new PictureSyncer($picasaAdapter);
+		$pictureSyncer = new PictureSyncer($imageRepository);
 		
-		return new Picgallery($picasaAdapter, $dropboxAdapter, $pictureSyncer);
+		return new Picgallery($imageRepository, $dropboxAdapter, $pictureSyncer);
 	}
 
-	public function __construct($picasaAdapter, $dropboxAdapter, $pictureSyncer)
+	public function __construct($imageRepository, $dropboxAdapter, $pictureSyncer)
 	{
-		$this->_picasaAdapter = $picasaAdapter;
+		$this->_imageRepository = $imageRepository;
 		$this->_dropboxAdapter = $dropboxAdapter;
 		$this->_pictureSyncer = $pictureSyncer;
 	}

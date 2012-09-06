@@ -14,7 +14,7 @@ class PicgalleryTestContext
 	public function __construct($testCase)
 	{
 		$this->_testCase = $testCase;
-		$this->_picasa = $testCase->getMock('\Picgallery\PicasaAdapter');
+		$this->_picasa = $testCase->getMock('\Picgallery\PicasaRepository');
 		$this->_dropbox = $testCase->getMock('\Picgallery\DropboxAdapter', 
 			array('getImageList'));
 		$this->_pictureSyncer = $testCase->getMock('\Picgallery\PictureSyncer',

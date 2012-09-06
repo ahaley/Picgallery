@@ -2,7 +2,7 @@
 
 namespace Picgallery;
 
-interface IPictureRepository
+interface ImageRepository
 {
 	public function imageExists($image);
 }

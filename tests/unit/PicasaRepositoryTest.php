@@ -1,10 +1,10 @@
 <?php
 
 require_once 'PHPUnit/Framework/TestCase.php';
-require_once 'PicasaAdapter.php';
+require_once 'PicasaRepository.php';
 require_once 'GoogleSession.php';
 
-class PicasaAdapterTest extends PHPUnit_Framework_TestCase
+class PicasaRepositoryTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 * @test
@@ -18,12 +18,12 @@ class PicasaAdapterTest extends PHPUnit_Framework_TestCase
 		$googleSession = new \Picgallery\GoogleSession();
 
 		// act
-		$picasaAdapter = \Picgallery\PicasaAdapter::create(
+		$picasaRepository = \Picgallery\PicasaRepository::create(
 			'user1@gmail.com',
 			$googleSession
 		);
 
 		// assert
-		$this->assertNull($picasaAdapter);
+		$this->assertNull($picasaRepository);
 	}
 }
