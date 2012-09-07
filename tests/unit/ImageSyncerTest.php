@@ -20,7 +20,7 @@ class ImageSyncerTest extends PHPUnit_Framework_TestCase
 
     private function GivenAImageSyncer()
     {
-    	$repository = $this->getMock('Picgallery\ImageRepository', array('imageExists'));
+    	$repository = $this->getMock('Picgallery\ImageRepository');
 		
 		$repository->expects($this->any())
 				   ->method('imageExists')

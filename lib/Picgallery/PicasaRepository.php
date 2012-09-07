@@ -8,18 +8,17 @@ require_once 'Zend/Loader.php';
 \Zend_Loader::loadClass('Zend_Gdata_AuthSub');
 \Zend_Loader::loadClass('Zend_Gdata_ClientLogin');
 \Zend_Loader::loadClass('Zend_Gdata_Photos');
-\Zend_Loader::loadClass('Zend_Gdata_Photos_UserQuery');
 \Zend_Loader::loadClass('Zend_Gdata_Photos_PhotoQuery');
-\Zend_Loader::loadClass('Zend_Gdata_Photos_AlbumQuery');
-\Zend_Loader::loadClass('Zend_Gdata_Photos_AlbumEntry');
 
 require_once 'ImageRepository.php';
+require_once 'PicasaAlbumRepository.php';
 
 class PicasaRepository implements ImageRepository
 {
-	private $_album = 'Picgallery';
+	private $albumName = 'Picgallery';
 	private $_service;
 	private $_googleUser;
+    private $albumAdapter;
 	
 	public static function create($googleUser, $googleSession)
 	{
@@ -30,10 +29,10 @@ class PicasaRepository implements ImageRepository
 		
 		$client = \Zend_Gdata_AuthSub::getHttpClient($googleToken);
 		$service = new \Zend_Gdata_Photos($client);
-		$adapter = new PicasaRepository($service, $googleUser);
-		if (!$adapter->albumExists())
-			$adapter->createAlbum();
-		return $adapter;
+		$repository = new PicasaRepository($service, $googleUser);
+		if (!$repository->albumExists())
+			$repository->createAlbum();
+		return $repository;
 	}
 
 	public static function getAuthUrl($nextUrl)
@@ -48,40 +47,22 @@ class PicasaRepository implements ImageRepository
 	{
 		$this->_service = $service;
 		$this->_googleUser = $googleUser;
+        $this->albumRepository = new PicasaAlbumRepository($service, $googleUser);
 	}
 
-	public function albumExists()
+	private function albumExists()
 	{
-		$service = $this->_service;
-		$userFeed = $service->getUserFeed("default");
-		foreach ($userFeed as $entry) {
-			if ($entry instanceof Zend_Gdata_Photos_AlbumEntry) {
-				if ($entry->getTitle() == $this->_album)
-					return true;
-			}
-		}
-		return false;
-	}
+        return $this->albumRepository->repositoryAlbumExists();
+    }
 
-	public function createAlbum()
+	private function createAlbum()
 	{
-		$service = $this->_service;
-		$entry = new \Zend_Gdata_Photos_AlbumEntry();
-		$entry->setTitle($service->newTitle($this->_album));
-		$entry->setSummary($service->newSummary('Picgallery album'));
-		$newEntry = $service->insertAlbumEntry($entry);
+        $this->albumRepository->createRepositoryAlbum();
 	}
 
 	public function imageExists($image)
 	{
-		$service = $this->_service;
-		
-		$query = new \Zend_GData_Photos_AlbumQuery();
-		$query->setUser($this->_googleUser);
-		$query->setAlbumName($this->_album);
-		
-		$feed = $service->getAlbumFeed($query);
-		
+        $feed = $this->albumRepository->getRepositoryAlbumFeed();
 		foreach ($feed as $entry) {
 			if ($entry instanceof \Zend_Gdata_Photos_PhotoEntry) {
 				if (strpos($image, $entry->getTitleValue()) !== false) {
@@ -104,18 +85,14 @@ class PicasaRepository implements ImageRepository
 		$entry->setMediaSource($fd);
 		$entry->setTitle($service->newTitle($title));
 
-		$albumQuery = new \Zend_Gdata_Photos_AlbumQuery();
-		$albumQuery->setUser($this->_googleUser);
-		$albumQuery->setAlbumName($this->_album);
-
-		$albumEntry = $service->getAlbumEntry($albumQuery);
+		$albumEntry = $this->albumRepository->getRepositoryAlbumEntry();
 
 		$result = $service->insertPhotoEntry($entry, $albumEntry);
 
 		return $result;
 	}
 
-	public function removePhoto($photoId)
+	public function removeImage($id)
 	{
 		$service = $this->_service;
 
@@ -130,51 +107,27 @@ class PicasaRepository implements ImageRepository
 		$service->deletePhotoEntry($entry, true);
 	}
 
-	public function getAlbums()
+	private function getAlbums()
 	{
-		$service = $this->_service;
-		$query = new \Zend_GData_Photos_UserQuery();
-
-		$query->setUser($this->_googleUser);
-
-		try {
-			$userFeed = $service->getUserFeed(null, $query);
-		}
-		catch (\Zend_GData_App_Exception $e) {
-			echo "Error: " . $e->getMessage();
-		}
-
-		$albums = array();
-		foreach ($userFeed as $entry) {
-			if ($entry instanceof \Zend_Gdata_Photos_AlbumEntry) {
-				$albums[$entry->getTitle()->getText()] = $entry;
-			}
-		}
-		return $albums;
+        return $this->albumRepository->getAlbums();
 	}
 
-    public function getPhotos()
+    public function getImages()
     {
-        $photos = array();
-        $service = $this->_service;
-        $query = new \Zend_Gdata_Photos_AlbumQuery();
-        $query->setUser($this->_googleUser);
-        $query->setAlbumName($this->_album);
-
-        $feed = $service->getAlbumFeed($query);
+        $images = array();
+        $feed = $this->albumRepository->getRepositoryAlbumFeed();
 
         foreach ($feed as $entry) {
             if ($entry instanceof \Zend_Gdata_Photos_PhotoEntry) {
                 $title = $entry->getTitle();
                 $thumb = $entry->getMediaGroup()->getThumbnail();
-                $photos[] = (object)array(
+                $images[] = (object)array(
                     'title' => $title,
                     'thumbnail' => $thumb[1]->getUrl()
                 );
-
             }
         }
 
-        return $photos;
+        return $images;
     }
 }

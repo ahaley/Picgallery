@@ -18,12 +18,12 @@ class PicasaRepositoryTest extends PHPUnit_Framework_TestCase
 		$googleSession = new \Picgallery\GoogleSession();
 
 		// act
-		$picasaRepository = \Picgallery\PicasaRepository::create(
+		$result = \Picgallery\PicasaRepository::create(
 			'user1@gmail.com',
 			$googleSession
 		);
 
 		// assert
-		$this->assertNull($picasaRepository);
+		$this->assertNull($result);
 	}
 }
