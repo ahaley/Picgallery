@@ -1,12 +1,10 @@
-<!DOCTYPE html>
-<html>
-<head>
-<title>Picasa Adapter Test</title>
-</head>
-<body>
 <?php
 include '../Bootstrap.php';
 require_once 'Picgallery.php';
+
+$title = 'PicasaRepository functional test';
+
+include 'header.php';
 
 $googleSession = new \Picgallery\GoogleSession;
 $repository = \Picgallery\PicasaRepository::create(GOOGLE_USER, $googleSession);
@@ -18,7 +16,6 @@ else {
 	echo "repository success";
 }
 
+include'footer.php';
 ?>
-</body>
-</html>
 
