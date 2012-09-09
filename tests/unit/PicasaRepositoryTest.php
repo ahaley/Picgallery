@@ -1,8 +1,8 @@
 <?php
 
 require_once 'PHPUnit/Framework/TestCase.php';
-require_once 'PicasaRepository.php';
-require_once 'GoogleSession.php';
+require_once 'Picgallery/PicasaRepository.php';
+require_once 'Picgallery/GoogleSession.php';
 
 class PicasaRepositoryTest extends PHPUnit_Framework_TestCase
 {

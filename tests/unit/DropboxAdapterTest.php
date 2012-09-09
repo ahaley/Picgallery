@@ -1,7 +1,7 @@
 <?php
 
 require_once 'PHPUnit/Framework/TestCase.php';
-require_once 'DropboxAdapter.php';
+require_once 'Picgallery/DropboxAdapter.php';
 
 class DropboxAdapterTest extends PHPUnit_Framework_TestCase
 {

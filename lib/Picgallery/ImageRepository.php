@@ -8,4 +8,5 @@ interface ImageRepository
 	public function uploadImage($title, $mime, $file_path);
 	public function removeImage($id);
     public function getImages();
+    public function getAlbumRepository();
 }

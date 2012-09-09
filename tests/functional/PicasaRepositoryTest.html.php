@@ -16,6 +16,15 @@ else {
 	echo "repository success";
 }
 
-include'footer.php';
+$albumRepository = $repository->getAlbumRepository();
+
+$albums = $albumRepository->getAlbums();
+
+foreach ($albums as $name => $entry) {
+    echo "name = " . $name . '<br>';
+    echo "num items = " . $entry->getGphotoNumPhotos() . "<br><br>";
+}
+
+include 'footer.php';
 ?>
 

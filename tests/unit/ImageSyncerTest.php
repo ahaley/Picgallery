@@ -1,7 +1,7 @@
 <?php
 
 require_once 'PHPUnit/Framework/TestCase.php';
-require_once 'ImageSyncer.php';
+require_once 'Picgallery/ImageSyncer.php';
 
 
 class ImageSyncerTest extends PHPUnit_Framework_TestCase

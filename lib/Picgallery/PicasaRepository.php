@@ -18,7 +18,7 @@ class PicasaRepository implements ImageRepository
 	private $albumName = 'Picgallery';
 	private $_service;
 	private $_googleUser;
-    private $albumAdapter;
+    private $albumRepository;
 	
 	public static function create($googleUser, $googleSession)
 	{
@@ -34,6 +34,11 @@ class PicasaRepository implements ImageRepository
 			$repository->createAlbum();
 		return $repository;
 	}
+
+    public function getAlbumRepository()
+    {
+        return $this->albumRepository;
+    }
 
 	public static function getAuthUrl($nextUrl)
 	{
