@@ -38,7 +38,7 @@ class PicasaAlbumRepository implements ImageAlbumRepository
     {
 		$service = $this->service;
 		$entry = new \Zend_Gdata_Photos_AlbumEntry();
-		$entry->setTitle($service->newTitle($this->_album));
+		$entry->setTitle($service->newTitle($this->albumName));
 		$entry->setSummary($service->newSummary('Picgallery album'));
 		$newEntry = $service->insertAlbumEntry($entry);
     }

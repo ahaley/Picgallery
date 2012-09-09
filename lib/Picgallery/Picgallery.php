@@ -23,7 +23,7 @@ class Picgallery
 		if ($imageRepository === null) {
 			$result = new \stdClass;
 			$result->error = Picgallery::GoogleError;
-			$result->authUrl = PicasaRepository::getAuthUrl($nextUrl);
+			$result->authUrl = $googleSession->getAuthUrl($nextUrl);
 			return $result;
 		}
 

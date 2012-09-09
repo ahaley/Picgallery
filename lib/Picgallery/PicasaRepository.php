@@ -22,12 +22,11 @@ class PicasaRepository implements ImageRepository
 	
 	public static function create($googleUser, $googleSession)
 	{
-		$googleToken = $googleSession->getGoogleToken();
+        $client = $googleSession->getHttpClient();
 
-		if (null === $googleToken)
+		if (null === $client)
 			return null;
 		
-		$client = \Zend_Gdata_AuthSub::getHttpClient($googleToken);
 		$service = new \Zend_Gdata_Photos($client);
 		$repository = new PicasaRepository($service, $googleUser);
 		if (!$repository->albumExists())
@@ -39,14 +38,6 @@ class PicasaRepository implements ImageRepository
     {
         return $this->albumRepository;
     }
-
-	public static function getAuthUrl($nextUrl)
-	{
-		$scope = 'http://picasaweb.google.com/data';
-		$secure = false;
-		$session = true;
-		return \Zend_Gdata_AuthSub::getAuthSubTokenUri($nextUrl, $scope, $secure, $session);
-	}
 
 	public function __construct($service = null, $googleUser = null)
 	{
