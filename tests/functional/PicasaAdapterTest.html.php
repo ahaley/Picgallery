@@ -6,17 +6,16 @@
 <body>
 <?php
 include '../Bootstrap.php';
-require_once 'GoogleSession.php';
-require_once 'PicasaAdapter.php';
+require_once 'Picgallery.php';
 
 $googleSession = new \Picgallery\GoogleSession;
-$adapter = \Picgallery\PicasaAdapter::create(GOOGLE_USER, $googleSession);
+$repository = \Picgallery\PicasaRepository::create(GOOGLE_USER, $googleSession);
 
-if ($adapter !== null) {
-	echo "adapter failed";
+if ($repository !== null) {
+	echo "repositroy failed";
 }
 else {
-	echo "adapter success";
+	echo "repository success";
 }
 
 ?>
