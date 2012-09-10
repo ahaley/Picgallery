@@ -12,16 +12,14 @@ class PicasaRepositoryTest extends PHPUnit_Framework_TestCase
 	public function Create_Without_Google_Session_Will_Return_Auth_Url()
 	{
 		// arrange
+        $username = 'user1@gmail.com';
 		global $_SESSION, $_GET;
 		unset($_SESSION['google_token']);
 		unset($_GET['token']);
-		$googleSession = new \Picgallery\GoogleSession();
+		$googleSession = new \Picgallery\GoogleSession($username);
 
 		// act
-		$result = \Picgallery\PicasaRepository::create(
-			'user1@gmail.com',
-			$googleSession
-		);
+		$result = \Picgallery\PicasaRepository::create($googleSession);
 
 		// assert
 		$this->assertNull($result);

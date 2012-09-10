@@ -7,34 +7,28 @@ $title = 'PicasaRepository functional test';
 
 include 'header.php';
 
-
-if (isset($_SESSION['my_token']) ) {
-    echo "SESSION['my_token'] is set to " . $_SESSION['my_token']
-        . "<br>";
-}
-else {
-    echo "SESSION['my_token'] is not set<br>";
-}
-
-$_SESSION['my_token'] = "abcdefg";
-$googleSession = new \Picgallery\GoogleSession;
-$repository = \Picgallery\PicasaRepository::create(GOOGLE_USER, $googleSession);
-
-if ($repository === null) {
+$googleSession = new \Picgallery\GoogleSession(GOOGLE_USER);
+if (!$googleSession->hasGoogleToken()) {
     echo "Click <a href=\"" . $googleSession->getAuthUrl() .
         "\">here</a> to authorize with Picasaweb.";
     include 'footer.php';
     die();
 }
 
+$repository = \Picgallery\PicasaRepository::create($googleSession);
+
 $albumRepository = $repository->getAlbumRepository();
 
-$albums = $albumRepository->getAlbums();
+$albumExists = $albumRepository->repositoryAlbumExists();
 
-foreach ($albums as $name => $entry) {
-    echo "name = " . $name . '<br>';
-    echo "num items = " . $entry->getGphotoNumPhotos() . "<br><br>";
-}
+assert($albumExists);
+
+
+
+
+
+
+
 
 include 'footer.php';
 ?>

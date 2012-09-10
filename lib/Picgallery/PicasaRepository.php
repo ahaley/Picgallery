@@ -15,12 +15,11 @@ require_once 'PicasaAlbumRepository.php';
 
 class PicasaRepository implements ImageRepository
 {
-	private $albumName = 'Picgallery';
-	private $_service;
-	private $_googleUser;
+	private $service;
+	private $username;
     private $albumRepository;
 	
-	public static function create($googleUser, $googleSession)
+	public static function create($googleSession)
 	{
         $client = $googleSession->getHttpClient();
 
@@ -28,23 +27,24 @@ class PicasaRepository implements ImageRepository
 			return null;
 		
 		$service = new \Zend_Gdata_Photos($client);
-		$repository = new PicasaRepository($service, $googleUser);
-		if (!$repository->albumExists())
-			$repository->createAlbum();
+		$repository = new PicasaRepository(
+            $service,
+            $googleSession->getUsername()
+        );
 		return $repository;
+	}
+
+	public function __construct($service = null, $username = null)
+	{
+		$this->service = $service;
+		$this->username = $username;
+        $this->albumRepository = new PicasaAlbumRepository($service, $username);
 	}
 
     public function getAlbumRepository()
     {
         return $this->albumRepository;
     }
-
-	public function __construct($service = null, $googleUser = null)
-	{
-		$this->_service = $service;
-		$this->_googleUser = $googleUser;
-        $this->albumRepository = new PicasaAlbumRepository($service, $googleUser);
-	}
 
 	private function albumExists()
 	{
@@ -72,7 +72,7 @@ class PicasaRepository implements ImageRepository
 
 	public function uploadImage($title, $mime, $file_path)
 	{
-		$service = $this->_service;
+		$service = $this->service;
 
 		$fd = $service->newMediaFileSource($file_path);
 		$fd->setContentType($mime);
@@ -90,10 +90,10 @@ class PicasaRepository implements ImageRepository
 
 	public function removeImage($id)
 	{
-		$service = $this->_service;
+		$service = $this->service;
 
 		$photoQuery = new \Zend_Gdata_Photos_PhotoQuery;
-		$photoQuery->setUser($this->_googleUser);
+		$photoQuery->setUser($this->username);
 		$photoQuery->setAlbumName($this->_album);
 		$photoQuery->setPhotoId($photoId);
 		$photoQuery->setType('entry');

@@ -12,14 +12,14 @@ class PicgalleryTest extends PHPUnit_Framework_TestCase
 	public function Create_Without_Google_Session_Token_Will_Return_AuthUrl()
 	{
 		// arrange
+        $username = 'user1@gmail.com';
 		global $_SESSION;
 		unset($_SESSION['picasa_token']);
 		unset($_GET['token']);
 
 		// act
-		$googleSession = new \Picgallery\GoogleSession();
+		$googleSession = new \Picgallery\GoogleSession($username);
 		$result = \Picgallery\Picgallery::create(null, null,
-			'user1@gmail.com',
 			$googleSession,
 			'http://localhost/uri'
 		);

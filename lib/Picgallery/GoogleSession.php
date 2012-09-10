@@ -4,6 +4,18 @@ namespace Picgallery;
 
 class GoogleSession
 {
+    private $username;
+
+    public function __construct($username)
+    {
+        $this->username = $username;
+    }
+
+    public function getUsername()
+    {
+        return $this->username;
+    }
+
 	public function getGoogleToken()
 	{
 		if (isset($_SESSION['google_token']))
@@ -22,6 +34,11 @@ class GoogleSession
         }
 
 		return $_SESSION['google_token'];
+    }
+    
+    public function hasGoogleToken()
+    {
+        return $this->getGoogleToken() !== null;
     }
 
     public function getHttpClient()
