@@ -21,6 +21,9 @@ class AlbumRepository
     {
         $this->albumAdapter = $adapter; 
         $this->getRepositoryAlbum();
+        if ($this->album == null) {
+            throw new \Exception('Could not retrieve album');
+        }
     }
 
     public function repositoryAlbumExists() 
