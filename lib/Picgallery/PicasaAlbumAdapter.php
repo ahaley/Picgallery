@@ -77,6 +77,7 @@ class PicasaAlbumAdapter implements AlbumAdapter
         $query = new \Zend_Gdata_Photos_AlbumQuery();
 		$query->setUser($this->username);
 		$query->setAlbumName($albumName);
+//        $query->setImgMax("d");
         return $query;
     }
 }

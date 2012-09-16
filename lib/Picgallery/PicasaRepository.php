@@ -86,7 +86,7 @@ class PicasaRepository implements ImageRepository
 		return $result;
 	}
 
-	public function removeImage($id)
+	public function removeImage($photoId)
 	{
 		$service = $this->service;
 
@@ -101,10 +101,14 @@ class PicasaRepository implements ImageRepository
 		$service->deletePhotoEntry($entry, true);
 	}
 
-	private function getAlbums()
-	{
-        return $this->albumRepository->getAlbums();
-	}
+    public function getImage($photoId)
+    {
+        $query = $this->albumRepository->createPhotoQuery();
+        $query->setPhotoId($photoId);
+
+        $entry = $this->service->getPhotoEntry($query);
+        return $this->_getImageFromPhotoEntry($entry);
+    }
 
     public function getImages()
     {
@@ -113,15 +117,25 @@ class PicasaRepository implements ImageRepository
 
         foreach ($feed as $entry) {
             if ($entry instanceof \Zend_Gdata_Photos_PhotoEntry) {
-                $title = $entry->getTitleValue();
-                $thumb = $entry->getMediaGroup()->getThumbnail();
-                $images[] = (object)array(
-                    'title' => $title,
-                    'thumbnail' => $thumb[1]->getUrl()
-                );
+                $images[] = $this->_getImageFromPhotoEntry($entry);
             }
         }
 
         return $images;
+    }
+
+    private function _getImageFromPhotoEntry(
+        \Zend_Gdata_Photos_PhotoEntry $entry)
+    {
+        $title = $entry->getTitleValue();
+        $mediaGroup = $entry->getMediaGroup();
+        $thumb = $mediaGroup->getThumbnail();
+        $content = $mediaGroup->getContent();
+        return (object)array(
+            'id' => $entry->getGphotoId(),
+            'title' => $title,
+            'thumbnail' => $thumb[1]->getUrl(),
+            'image_url' => $content[0]->getUrl()
+        );
     }
 }

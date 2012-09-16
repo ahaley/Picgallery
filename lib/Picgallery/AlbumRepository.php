@@ -59,4 +59,11 @@ class AlbumRepository
     {
         return $this->albumAdapter->getAlbumFeed($this->albumName);
     }
+
+    public function createPhotoQuery()
+    {
+        $query = new \Zend_Gdata_Photos_PhotoQuery();
+        $query->setAlbumId($this->album->getGphotoId());
+        return $query;
+    }
 }
