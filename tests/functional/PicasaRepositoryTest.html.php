@@ -28,12 +28,7 @@ foreach ($images as $image) {
 
 
 
-
-
-
-
-
-
+print_r($images);
 
 
 include 'footer.php';

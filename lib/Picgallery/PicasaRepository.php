@@ -113,10 +113,10 @@ class PicasaRepository implements ImageRepository
 
         foreach ($feed as $entry) {
             if ($entry instanceof \Zend_Gdata_Photos_PhotoEntry) {
-                $title = $entry->getTitle();
+                $title = $entry->getTitleValue();
                 $thumb = $entry->getMediaGroup()->getThumbnail();
                 $images[] = (object)array(
-                    'title' => $title->getText(),
+                    'title' => $title,
                     'thumbnail' => $thumb[1]->getUrl()
                 );
             }
