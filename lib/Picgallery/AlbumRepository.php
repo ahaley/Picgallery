@@ -54,4 +54,9 @@ class AlbumRepository
         }
         return $this->album;
     }
+
+    public function getRepositoryImages()
+    {
+        return $this->albumAdapter->getAlbumFeed($this->albumName);
+    }
 }

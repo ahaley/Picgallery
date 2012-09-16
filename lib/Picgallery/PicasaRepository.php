@@ -109,14 +109,14 @@ class PicasaRepository implements ImageRepository
     public function getImages()
     {
         $images = array();
-        $feed = $this->albumRepository->getRepositoryAlbumFeed();
+        $feed = $this->albumRepository->getRepositoryImages();
 
         foreach ($feed as $entry) {
             if ($entry instanceof \Zend_Gdata_Photos_PhotoEntry) {
                 $title = $entry->getTitle();
                 $thumb = $entry->getMediaGroup()->getThumbnail();
                 $images[] = (object)array(
-                    'title' => $title,
+                    'title' => $title->getText(),
                     'thumbnail' => $thumb[1]->getUrl()
                 );
             }

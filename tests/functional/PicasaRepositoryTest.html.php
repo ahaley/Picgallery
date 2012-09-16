@@ -7,7 +7,7 @@ $title = 'PicasaRepository functional test';
 
 include 'header.php';
 
-$googleSession = new \Picgallery\GoogleSession(GOOGLE_USER);
+$googleSession = new \Picgallery\AuthSubGoogleSession(GOOGLE_USER);
 if (!$googleSession->hasGoogleToken()) {
     echo "Click <a href=\"" . $googleSession->getAuthUrl() .
         "\">here</a> to authorize with Picasaweb.";
@@ -17,11 +17,17 @@ if (!$googleSession->hasGoogleToken()) {
 
 $repository = \Picgallery\PicasaRepository::create($googleSession);
 
-$albumRepository = $repository->getAlbumRepository();
+$images = $repository->getImages();
 
-$albumExists = $albumRepository->repositoryAlbumExists();
+foreach ($images as $image) {
+?>
+    <p><?= $image->title ?></p>
+    <img src="<?= $image->thumbnail ?>"/>
+<?php
+}
 
-assert($albumExists);
+
+
 
 
 
