@@ -20,7 +20,7 @@ class AlbumRepository
     public function __construct(AlbumAdapter $adapter)
     {
         $this->albumAdapter = $adapter; 
-        $this->repositoryAlbumExists();
+        $this->getRepositoryAlbum();
     }
 
     public function repositoryAlbumExists() 
@@ -28,7 +28,7 @@ class AlbumRepository
         return $this->albumAdapter->hasAlbum($this->albumName);
     }
 
-    private function _getRepositoryAlbum($query)
+    private function _getRepositoryAlbum()
     {
         $i = 0;
         $album = null;

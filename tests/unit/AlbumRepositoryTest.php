@@ -14,11 +14,9 @@ class AlbumRepositoryTest extends PHPUnit_Framework_TestCase
     {
         $albumAdapter = $this->getMock('Picgallery\AlbumAdapter');
         $albumAdapter->expects($this->once())
-            ->method('hasAlbum')
+            ->method('getAlbum')
             ->with($this->equalTo('Picgallery'))
-            ->will($this->returnValue(true));
-
+            ->will($this->returnValue(new stdClass));
         $albumRepo = new AlbumRepository($albumAdapter);
-
     }
 }
