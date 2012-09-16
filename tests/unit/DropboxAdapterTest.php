@@ -3,15 +3,17 @@
 require_once 'PHPUnit/Framework/TestCase.php';
 require_once 'Picgallery/DropboxAdapter.php';
 
+use Picgallery\DropboxAdapter;
+
 class DropboxAdapterTest extends PHPUnit_Framework_TestCase
 {
 	/**
 	 * @test
 	 */
-	public function Adapter_Will_Extract_Image_List_From_Dropbox_Obj()
+	public function ShouldExtractImageListFromDropboxApi()
 	{
 		// arrange
-		$adapter = new \Picgallery\DropboxAdapter($this->createDropboxObject());
+		$adapter = new DropboxAdapter($this->createDropboxObject());
 
 		// act
 		$result = $adapter->getImageList();

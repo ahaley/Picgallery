@@ -19,7 +19,7 @@ class PicgalleryTest extends PHPUnit_Framework_TestCase
 		unset($_GET['token']);
 
 		// act
-		$googleSession = new \Picgallery\GoogleSession($username);
+		$googleSession = new \Picgallery\AuthSubGoogleSession($username);
 		$result = \Picgallery\Picgallery::create(null, null,
 			$googleSession,
 			'http://localhost/uri'

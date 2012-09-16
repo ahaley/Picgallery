@@ -5,7 +5,10 @@ require_once 'Picgallery/FileHelper.php';
 
 class FileHelperTest extends PHPUnit_Framework_TestCase
 {
-	public function test_Given_Valid_File_Returns_Correct_Extension()
+    /**
+     * @test
+     */
+	public function ShouldReturnFileExtensionForValidFile()
 	{
 		$path = '/Path/file.png';
 

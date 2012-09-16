@@ -2,7 +2,7 @@
 
 namespace Picgallery;
 
-class GoogleSession
+abstract class GoogleSession
 {
     private $username;
 
@@ -15,7 +15,10 @@ class GoogleSession
     {
         return $this->username;
     }
+}
 
+class AuthSubGoogleSession extends GoogleSession
+{
 	public function getGoogleToken()
 	{
 		if (isset($_SESSION['google_token']))
