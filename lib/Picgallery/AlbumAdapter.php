@@ -2,10 +2,11 @@
 
 namespace Picgallery;
 
-interface ImageAlbumRepository
+interface AlbumAdapter
 {
-    public function repositoryAlbumExists();
+    public function hasAlbum($albumName);
+    public function getAlbum($albumName);
+    public function createAlbum($albumName, $summary = null);
     public function getAlbums();
-    public function getRepositoryAlbumFeed();
-    public function getRepositoryAlbumEntry();
+    public function getAlbumFeed($albumName);
 }

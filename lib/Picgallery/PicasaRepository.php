@@ -11,7 +11,8 @@ require_once 'Zend/Loader.php';
 \Zend_Loader::loadClass('Zend_Gdata_Photos_PhotoQuery');
 
 require_once 'ImageRepository.php';
-require_once 'PicasaAlbumRepository.php';
+require_once 'PicasaAlbumAdapter.php';
+require_once 'AlbumRepository.php';
 
 class PicasaRepository implements ImageRepository
 {
@@ -38,13 +39,10 @@ class PicasaRepository implements ImageRepository
 	{
 		$this->service = $service;
 		$this->username = $username;
-        $this->albumRepository = new PicasaAlbumRepository($service, $username);
+        $this->albumRepository = new AlbumRepository(
+            new PicasaAlbumAdapter($service, $username)
+        );
 	}
-
-    public function getAlbumRepository()
-    {
-        return $this->albumRepository;
-    }
 
 	private function albumExists()
 	{

@@ -17,7 +17,8 @@ class Picgallery
 
 	private $_imageSyncer;
 
-	public static function create($dropboxKey, $dropboxSecret, $googleSession, $nextUrl)
+	public static function create(
+        $dropboxKey, $dropboxSecret, $googleSession, $nextUrl)
 	{
 		$imageRepository = PicasaRepository::create($googleSession);
 		if ($imageRepository === null) {

@@ -8,14 +8,12 @@ require_once 'Zend/Loader.php';
 \Zend_Loader::loadClass('Zend_Gdata_Photos_AlbumQuery');
 \Zend_Loader::loadClass('Zend_Gdata_Photos_AlbumEntry');
 
-require_once 'ImageAlbumRepository.php';
+require_once 'AlbumAdapter.php';
 
-class PicasaAlbumRepository implements ImageAlbumRepository 
+class PicasaAlbumAdapter implements AlbumAdapter 
 {
     private $service;
     private $username;
-    private $albumName = 'Picgallery';
-    private $albumEntry = null;
 
     public function __construct($service, $username)
     {
@@ -23,10 +21,33 @@ class PicasaAlbumRepository implements ImageAlbumRepository
         $this->username = $username;
     }
 
-    public function repositoryAlbumExists() 
+    public function hasAlbum($albumName)
     {
-        $albumEntry = $this->getRepositoryAlbumEntry();
-        return $albumEntry != null;
+        $query = $this->createAlbumQuery($albumName);
+        try {
+            $album = $this->service->getAlbumEntry($query);
+        }
+        catch (\Zend_Gdata_App_HttpException $ex) {
+            return false;
+        }
+        return true;
+    }
+
+    public function getAlbum($albumName)
+    {
+        $query = $this->createAlbumQuery($albumName);
+        return $this->service->getAlbumEntry($query);
+    }
+
+    public function createAlbum($albumName, $summary = null)
+    {
+        $service = $this->service;
+		$entry = new \Zend_Gdata_Photos_AlbumEntry();
+		$entry->setTitle($service->newTitle($albumName));
+        if ($summary != null) {
+		    $entry->setSummary($service->newSummary($summary));
+        }
+		$newEntry = $service->insertAlbumEntry($entry);
     }
 
     public function getAlbums()
@@ -45,54 +66,17 @@ class PicasaAlbumRepository implements ImageAlbumRepository
 		return $albums;
     }
 
-    public function getRepositoryAlbumFeed()
+    public function getAlbumFeed($albumName)
     {
-        $query = $this->createAlbumQuery();
-        $feed = $this->service->getAlbumFeed($query);
-        return $feed;
+        $query = $this->createAlbumQuery($albumName);
+        return $this->service->getAlbumFeed($query);
     }
 
-    private function createAlbumQuery()
+    private function createAlbumQuery($albumName)
     {
         $query = new \Zend_Gdata_Photos_AlbumQuery();
 		$query->setUser($this->username);
-		$query->setAlbumName($this->albumName);
+		$query->setAlbumName($albumName);
         return $query;
-    }
-
-    private function createRepositoryAlbum()
-    {
-		$service = $this->service;
-		$entry = new \Zend_Gdata_Photos_AlbumEntry();
-		$entry->setTitle($service->newTitle($this->albumName));
-		$entry->setSummary($service->newSummary('Picgallery album'));
-		$newEntry = $service->insertAlbumEntry($entry);
-    }
-
-    private function _getRepositoryAlbumEntry($query)
-    {
-        $i = 0;
-        $entry = null;
-        $max_attempts = 3;
-        while ($entry == null && $i < $max_attempts) {
-            try {
-                $entry = $this->service->getAlbumEntry($query);
-            }
-            catch (\Zend_Gdata_App_HttpException $ex) {
-                $entry = null;
-                $this->createRepositoryAlbum();
-            }
-            $i++;
-        }
-        return $entry;
-    }
-
-    public function getRepositoryAlbumEntry()
-    {
-        if ($this->albumEntry == null) {
-            $query = $this->createAlbumQuery();
-            $this->albumEntry = $this->_getRepositoryAlbumEntry($query);
-        }
-        return $this->albumEntry;
     }
 }

@@ -3,6 +3,7 @@
 require_once 'PHPUnit/Framework/TestCase.php';
 require_once 'Picgallery.php';
 require_once 'PicgalleryTestContext.php';
+require_once 'fakes/ImageRepositoryFake.php';
 
 class PicgalleryTest extends PHPUnit_Framework_TestCase
 {
@@ -38,10 +39,19 @@ class PicgalleryTest extends PHPUnit_Framework_TestCase
 	{
 		// arrange
 		$context = new PicgalleryTestContext($this);
-		$expectedImageList = array();
-		$context->wireImageSync($expectedImageList);
-		$picgallery = new \Picgallery\Picgallery(
-			$context->getPicasa(),
+
+        $imageArray = array(
+            'file1.png' => false,
+            'file2.png' => true,
+            'file3.png' => false,
+            'file4.png' => true
+        );
+
+        $context->wireImageRepoWithImageArray($imageArray);
+        $context->wireDropboxWithImageArray($imageArray);
+
+		$picgallery = new Picgallery\Picgallery(
+            $context->getImageRepo(),
 			$context->getDropbox(),
 			$context->getImageSyncer()
 		);
@@ -50,6 +60,9 @@ class PicgalleryTest extends PHPUnit_Framework_TestCase
 		$imageList = $picgallery->getImageList();
 
 		// assert
-		$this->assertEquals($expectedImageList, $imageList);
+        $context->assertImageIsInRepository($imageList, 'file2.png');
+        $context->assertImageIsInRepository($imageList, 'file4.png');
+        $context->assertImageIsNotInRepository($imageList, 'file1.png');
+        $context->assertImageIsNotInRepository($imageList, 'file3.png');
 	}
 }
