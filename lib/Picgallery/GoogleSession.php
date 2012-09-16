@@ -15,6 +15,37 @@ abstract class GoogleSession
     {
         return $this->username;
     }
+
+    abstract public function getHttpClient();
+}
+
+class ClientLoginGoogleSession extends GoogleSession
+{
+    private $password;
+
+    public function __construct($username, $password)
+    {
+        parent::__construct($username);
+        $this->password = $password;
+    }
+
+    public function getPassword()
+    {
+        return $this->password;
+    }
+
+    public function getHttpClient()
+    {
+        $username = $this->getUsername();
+        $password = $this->getPassword();
+        $service = \Zend_Gdata_Photos::AUTH_SERVICE_NAME;
+
+        $client = \Zend_Gdata_ClientLogin::getHttpClient(
+            $username, $password, $service
+        );
+
+        return $client;
+    }
 }
 
 class AuthSubGoogleSession extends GoogleSession
@@ -62,8 +93,17 @@ class AuthSubGoogleSession extends GoogleSession
 		$scope = 'http://picasaweb.google.com/data';
 		$secure = 0;
 		$session = 1;
-		return \Zend_Gdata_AuthSub::getAuthSubTokenUri(
+
+        $authSubAdapter = $this->authSubAdapter;
+		return $authSubAdapter::getAuthSubTokenUri(
             $nextUrl, $scope, $secure, $session
         );
 	}
+
+    private $authSubAdapter = '\Zend_Gdata_AuthSub';
+
+    public function setAuthSubAdapter($authSubAdapter)
+    {
+        $this->authSubAdapter = $authSubAdapter;
+    }
 }
