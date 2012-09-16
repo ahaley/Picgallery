@@ -34,16 +34,14 @@ class Picgallery
 			$nextUrl
 		);
 		
-		$imageSyncer = new ImageSyncer($imageRepository);
-		
-		return new Picgallery($imageRepository, $dropboxAdapter, $imageSyncer);
+		return new Picgallery($imageRepository, $dropboxAdapter);
 	}
 
-	public function __construct($imageRepository, $dropboxAdapter, $imageSyncer)
+	public function __construct($imageRepository, $dropboxAdapter)
 	{
 		$this->_imageRepository = $imageRepository;
 		$this->_dropboxAdapter = $dropboxAdapter;
-		$this->_imageSyncer = $imageSyncer;
+		$this->_imageSyncer = new ImageSyncer($imageRepository);
 	}
 
 	public function getImageList()

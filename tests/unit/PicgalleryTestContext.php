@@ -8,11 +8,9 @@ class PicgalleryTestContext
 	private $_testCase;
 	private $_dropbox;
 	private $_imageRepo;
-	private $_imageSyncer;
 
 	public function getDropbox() { return $this->_dropbox; }
 	public function getImageRepo() { return $this->_imageRepo; }
-	public function getImageSyncer() { return $this->_imageSyncer; }
 
 	public function __construct($testCase)
 	{
@@ -20,7 +18,6 @@ class PicgalleryTestContext
         $this->_imageRepo = new Picgallery\ImageRepositoryFake();
 		$this->_dropbox = $testCase->getMock('\Picgallery\DropboxAdapter', 
 			array('getImageList'));
-        $this->_imageSyncer = new Picgallery\ImageSyncer($this->_imageRepo);
 	}
 
     public function wireImageRepoWithImageArray($imageArray)
