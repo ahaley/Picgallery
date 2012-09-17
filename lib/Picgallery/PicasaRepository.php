@@ -56,7 +56,7 @@ class PicasaRepository implements ImageRepository
 
 	public function imageExists($image)
 	{
-        $feed = $this->albumRepository->getRepositoryAlbumFeed();
+        $feed = $this->albumRepository->getRepositoryImages();
 		foreach ($feed as $entry) {
 			if ($entry instanceof \Zend_Gdata_Photos_PhotoEntry) {
 				if (strpos($image, $entry->getTitleValue()) !== false) {
@@ -79,7 +79,7 @@ class PicasaRepository implements ImageRepository
 		$entry->setMediaSource($fd);
 		$entry->setTitle($service->newTitle($title));
 
-		$albumEntry = $this->albumRepository->getRepositoryAlbumEntry();
+		$albumEntry = $this->albumRepository->getRepositoryAlbum();
 
 		$result = $service->insertPhotoEntry($entry, $albumEntry);
 
@@ -88,17 +88,12 @@ class PicasaRepository implements ImageRepository
 
 	public function removeImage($photoId)
 	{
-		$service = $this->service;
+        $query = $this->albumRepository->createPhotoQuery();
+		$query->setPhotoId($photoId);
 
-		$photoQuery = new \Zend_Gdata_Photos_PhotoQuery;
-		$photoQuery->setUser($this->username);
-		$photoQuery->setAlbumName($this->_album);
-		$photoQuery->setPhotoId($photoId);
-		$photoQuery->setType('entry');
+		$photoEntry = $this->service->getPhotoEntry($query);
 
-		$entry = $service->getPhotoEntry($photoQuery);
-
-		$service->deletePhotoEntry($entry, true);
+		$this->service->deletePhotoEntry($photoEntry, true);
 	}
 
     public function getImage($photoId)

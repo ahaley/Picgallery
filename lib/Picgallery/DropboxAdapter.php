@@ -7,6 +7,7 @@ require_once 'Dropbox/OAuth/Consumer/ConsumerAbstract.php';
 require_once 'Dropbox/OAuth/Consumer/Curl.php';
 require_once 'Dropbox/OAuth/Storage/StorageInterface.php';
 require_once 'Dropbox/OAuth/Storage/Session.php';	
+require_once 'Dropbox/Exception.php';
 require_once 'FileHelper.php';
 
 class DropboxAdapter
