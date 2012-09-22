@@ -1,5 +1,4 @@
 <?php
-
 namespace Picgallery;
 
 class AuthSubGoogleSession extends GoogleSession
@@ -38,6 +37,8 @@ class AuthSubGoogleSession extends GoogleSession
 		return \Zend_Gdata_AuthSub::getHttpClient($googleToken);
     }
 
+    private $authSubAdapter = '\Zend_Gdata_AuthSub';
+
     public function getAuthUrl($nextUrl = null)
 	{
         if ($nextUrl === NULL) {
@@ -53,8 +54,6 @@ class AuthSubGoogleSession extends GoogleSession
             $nextUrl, $scope, $secure, $session
         );
 	}
-
-    private $authSubAdapter = '\Zend_Gdata_AuthSub';
 
     public function setAuthSubAdapter($authSubAdapter)
     {
