@@ -1,5 +1,4 @@
 <?php
-
 namespace Picgallery;
 
 class FileHelper
@@ -7,6 +6,13 @@ class FileHelper
 	public function isImageType($mime_type)
 	{
 		return false !== strpos($mime_type, 'image');
+	}
+	
+	public function isImageFileType($filename)
+	{
+		$extension = strtolower($this->getFileExtension($filename));
+		
+		return in_array($extension, array("png", "gif", "jpg"));
 	}
 
 	public function getFileExtension($path)

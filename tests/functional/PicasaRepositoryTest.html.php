@@ -17,7 +17,6 @@ if (!$googleSession->hasGoogleToken()) {
 
 $repository = \Picgallery\PicasaRepository::create($googleSession);
 
-
 if (isset($_GET['photoid'])) {
     $image = $repository->getImage(intval($_GET['photoid']));
 ?>

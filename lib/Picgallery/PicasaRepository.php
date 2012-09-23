@@ -56,11 +56,11 @@ class PicasaRepository implements ImageRepository
 		return false;
 	}
 
-	public function uploadImage($title, $mime, $file_path)
+	public function uploadImage($title, $mime, $tmp_path)
 	{
 		$service = $this->service;
 
-		$fd = $service->newMediaFileSource($file_path);
+		$fd = $service->newMediaFileSource($tmp_path);
 		$fd->setContentType($mime);
 
 		$entry = new \Zend_Gdata_Photos_PhotoEntry();
