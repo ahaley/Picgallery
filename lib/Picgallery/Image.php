@@ -7,6 +7,7 @@ class Image
     private $name;
     private $thumbnail;
     private $url;
+    private $size;
     
 	public function setId($id) { $this->id = $id; }
 	public function getId() { return $this->id; }
@@ -16,4 +17,6 @@ class Image
     public function getThumbnailUrl() { return $this->thumbnail; }
     public function setUrl($url) { $this->url = $url; }
     public function getUrl() { return $this->url; }
+    public function setSize($size) { $this->size = $size; }
+    public function getSize() { return $this->size; }
 }

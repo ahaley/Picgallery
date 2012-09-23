@@ -22,7 +22,11 @@ class LocalImageRepository implements ImageRepository
 	public function uploadImage($title, $mime, $tmp_path)
 	{
 		$destination = $this->local_path . '/' . $title;
-		move_uploaded_file($tmp_path, $destination);
+		$result = move_uploaded_file($tmp_path, $destination);
+		
+		if (!$result) {
+			rename($tmp_path, $destination);
+		}
 		
 		$image = new \Imagick($destination);
 		$imageprops = $image->getImageGeometry();
@@ -52,19 +56,20 @@ class LocalImageRepository implements ImageRepository
     			if (!$helper->isImageFileType($entry))
     				continue;
     				
-    			$images[] = $this->_convertToImage($entry);
+    			$images[] = $this->_convertToImage($entry, $this->local_path);
     		}
     		closedir($handle);
     	}
     	return $images;
     }
     
-    private function _convertToImage($filename)
+    private function _convertToImage($filename, $path)
     {
     	$image = new Image();
     	$image->setName($filename);
     	$image->setUrl($this->url_path . '/' . $filename);
     	$image->setThumbnailUrl($this->url_path . '/thumbnails/' . $filename);
+    	$image->setSize(filesize($path . '/' . $filename));
     	return $image;
     }
 }
