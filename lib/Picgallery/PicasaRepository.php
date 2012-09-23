@@ -116,7 +116,7 @@ class PicasaRepository implements ImageRepository
         $image = new Image();
         $image->setId($entry->getGphotoId());
         $image->setName($title);
-        $image->setThumbnail($thumb[1]->getUrl());
+        $image->setThumbnailUrl($thumb[1]->getUrl());
         $image->setUrl($content[0]->getUrl());
         return $image;
     }

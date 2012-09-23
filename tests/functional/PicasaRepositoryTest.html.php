@@ -32,7 +32,7 @@ foreach ($images as $image) {
 ?>
     <p><?= $image->getName() ?></p>
     <a href="PicasaRepositoryTest.html.php/?photoid=<?= $image->getId() ?>">
-        <img src="<?= $image->getThumbnail() ?>"/>
+        <img src="<?= $image->getThumbnailUrl() ?>"/>
     </a>
 <?php
 }
