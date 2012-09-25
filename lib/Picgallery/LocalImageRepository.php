@@ -41,6 +41,7 @@ class LocalImageRepository implements ImageRepository
     		mkdir($thumb_path);
     	
     	$image->writeImage($thumb_path . '/' . $title);
+    	return true;
 	}
 	
 	public function removeImage($id)
