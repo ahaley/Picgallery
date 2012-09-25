@@ -45,6 +45,11 @@ class LocalImageRepository implements ImageRepository
 	
 	public function removeImage($id)
 	{
+		$file = $this->local_path . '/' . $id;
+		if (file_exists($file)) {
+			return unlink($file);
+		}
+		return false;
 	}
     
     public function getImages()

@@ -22,7 +22,7 @@ class ImageSyncer
 			}
 			else {
 				$image->inRepository = true;
-				$image->photoId = $photoId;
+				$image->photoId = $image->file;
 			}
 		}
 	
