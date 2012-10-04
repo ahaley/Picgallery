@@ -16,15 +16,13 @@ class ImageSyncer
 	public function mapImageExistence($imageList)
 	{
 		foreach ($imageList as $image) {
-			$photoId = $this->repository->imageExists(
-                $image->file
-            );
+			$photoId = $this->repository->imageExists($image->file);
 			if (!$photoId) {
 				$image->inRepository = false;
 			}
 			else {
 				$image->inRepository = true;
-				$image->photoId = $photoId;
+				$image->photoId = $image->file;
 			}
 		}
 	

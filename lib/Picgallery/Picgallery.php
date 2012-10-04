@@ -17,6 +17,17 @@ class Picgallery
 
 	private $_imageSyncer;
 
+	public static function createWithImageRepository(
+		ImageRepository $repository, $dropboxKey, $dropboxSecret, $nextUrl)
+	{
+		$dropboxAdapter = DropboxAdapter::create(
+			$dropboxKey,
+			$dropboxSecret,
+			$nextUrl
+		);
+		return new Picgallery($repository, $dropboxAdapter);
+	}
+
 	public static function create(
         $dropboxKey, $dropboxSecret, $googleSession, $nextUrl)
 	{

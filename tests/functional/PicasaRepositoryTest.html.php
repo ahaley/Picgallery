@@ -17,11 +17,10 @@ if (!$googleSession->hasGoogleToken()) {
 
 $repository = \Picgallery\PicasaRepository::create($googleSession);
 
-
 if (isset($_GET['photoid'])) {
     $image = $repository->getImage(intval($_GET['photoid']));
 ?>
-<img src="<?= $image->image_url ?>"/>
+<img src="<?= $image->getUrl() ?>"/>
 
 <?php
 }
@@ -30,9 +29,9 @@ $images = $repository->getImages();
 
 foreach ($images as $image) {
 ?>
-    <p><?= $image->title ?></p>
-    <a href="PicasaRepositoryTest.html.php/?photoid=<?= $image->id ?>">
-        <img src="<?= $image->thumbnail ?>"/>
+    <p><?= $image->getName() ?></p>
+    <a href="PicasaRepositoryTest.html.php/?photoid=<?= $image->getId() ?>">
+        <img src="<?= $image->getThumbnailUrl() ?>"/>
     </a>
 <?php
 }
