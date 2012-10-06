@@ -2,6 +2,11 @@
 
 namespace Picgallery;
 
+$include_path = explode(':', get_include_path());
+$include_path[] = realpath(__DIR__ . '/../../vendor/Dropbox');
+set_include_path(implode(':', $include_path));
+
+
 require_once 'Dropbox/API.php';
 require_once 'Dropbox/OAuth/Consumer/ConsumerAbstract.php';	
 require_once 'Dropbox/OAuth/Consumer/Curl.php';
