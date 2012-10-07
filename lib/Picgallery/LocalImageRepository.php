@@ -11,6 +11,8 @@ class LocalImageRepository implements ImageRepository
     public function __construct($local_path, $url_path)
     {
     	$this->local_path = $local_path;
+    	if (!file_exists($local_path))
+    		mkdir($local_path, 0777, true);
     	$this->url_path = $url_path;
     }
 
@@ -41,7 +43,8 @@ class LocalImageRepository implements ImageRepository
     		mkdir($thumb_path);
     	
     	$image->writeImage($thumb_path . '/' . $title);
-    	return true;
+    	
+    	return $this->_convertToImage($title, $this->local_path);
 	}
 	
 	public function removeImage($id)
