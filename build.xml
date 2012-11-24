@@ -16,8 +16,10 @@
     <mkdir dir="build/pdepend"/>
   </target>
 
-  <target name="unit-tests">
+  <target name="unit-tests" depends="dirs">
     <phpunit bootstrap="tests/Bootstrap.php" haltonfailure="true">
+      <formatter type="clover" usefile="true"
+        todir="build/logs" outfile="clover.xml"/>
       <formatter type="summary" usefile="false"/>
       <batchtest>
         <fileset dir="tests/unit">
