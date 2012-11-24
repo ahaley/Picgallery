@@ -8,6 +8,8 @@
 
   <target name="dirs">
     <mkdir dir="build"/>
+    <mkdir dir="build/logs"/>
+    <mkdir dir="build/pdepend"/>
   </target>
 
   <target name="unit-tests">
@@ -32,11 +34,31 @@
     </phplint>
   </target>
 
-  <target name="phploc" depends="dirs">
+  <target name="pdepend" depends="dirs"
+    description="Calculate software metrics with PHP_Depend">
+    <exec executable="pdepend">
+      <arg value="--jdepend-xml=build/logs/jdepend.xml"/>
+      <arg value="--jdepend-chart=build/pdepend/dependencies.svg"/>
+      <arg value="--overview-pyramid=build/pdepend/overview-pyramid.svg"/>
+      <arg path="lib"/>
+    </exec>
+  </target>
+
+  <target name="phploc" description="Count LOC" depends="dirs">
     <exec executable="phploc">
       <arg value="--log-csv"/>
       <arg value="build/phploc.csv"/>
       <arg path="lib"/>
     </exec>
   </target>
+
+  <target name="phpcpd" description="Duplicate code check with phpcpd"
+    depends="dirs">
+    <exec executable="phpcpd">
+      <arg value="--log-pmd"/>
+      <arg value="build/logs/pmd-cpd.xml"/>
+      <arg path="lib"/>
+    </exec>
+  </target>
+
 </project>
