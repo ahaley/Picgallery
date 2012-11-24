@@ -1,10 +1,7 @@
 <?php
 
 require_once 'PHPUnit/Framework/TestCase.php';
-require_once 'Picgallery/PicasaRepository.php';
-require_once 'Picgallery/GoogleSession.php';
-
-use Picgallery\PicasaRepository;
+require_once 'Picgallery.php';
 
 class PicasaRepositoryTest extends PHPUnit_Framework_TestCase
 {
@@ -21,7 +18,7 @@ class PicasaRepositoryTest extends PHPUnit_Framework_TestCase
 		$googleSession = new \Picgallery\AuthSubGoogleSession($username);
 
 		// act
-		$result = PicasaRepository::create($googleSession);
+		$result = \Picgallery\PicasaRepository::create($googleSession);
 
 		// assert
 		$this->assertNull($result);
