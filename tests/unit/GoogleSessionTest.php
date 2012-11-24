@@ -2,6 +2,7 @@
 
 require_once 'PHPUnit/Framework/TestCase.php';
 require_once 'Picgallery/GoogleSession.php';
+require_once 'Picgallery/AuthSubGoogleSession.php';
 
 use Picgallery\GoogleSession;
 use Picgallery\AuthSubGoogleSession;
