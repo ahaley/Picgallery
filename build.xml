@@ -2,6 +2,14 @@
 
 <project name="stockholme" default="build">
 
+  <target name="clean">
+    <delete dir="build"/>
+  </target>
+
+  <target name="dirs">
+    <mkdir dir="build"/>
+  </target>
+
   <target name="unit-tests">
     <phpunit bootstrap="tests/Bootstrap.php" haltonfailure="true">
       <formatter type="summary" usefile="false"/>
@@ -22,5 +30,13 @@
         <include name="**/*.php"/>
       </fileset>
     </phplint>
+  </target>
+
+  <target name="phploc" depends="dirs">
+    <exec executable="phploc">
+      <arg value="--log-csv"/>
+      <arg value="build/phploc.csv"/>
+      <arg path="lib"/>
+    </exec>
   </target>
 </project>
