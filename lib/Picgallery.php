@@ -1,8 +1,6 @@
 <?php
 
-require_once 'Picgallery/GoogleSession.php';
-require_once 'Picgallery/AuthSubGoogleSession.php';
-require_once 'Picgallery/ClientLoginGoogleSession.php';
-require_once 'Picgallery/LocalImageRepository.php';
-require_once 'Picgallery/AlbumRepository.php';
-require_once 'Picgallery/ImageSyncer.php';
+require_once 'SplClassLoader.php';
+
+$classLoader = new SplClassLoader('Picgallery', __DIR__);
+$classLoader->register();
