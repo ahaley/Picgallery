@@ -57,7 +57,7 @@ class LocalImageRepositoryTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @covers Picgallery\LocalImageRepository::imageExists
+     * @covers Picgallery\LocalImageRepository::removeImage
      */
     public function shouldRemoveImage()
     {
