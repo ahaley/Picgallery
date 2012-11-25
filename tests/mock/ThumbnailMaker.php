@@ -1,6 +1,6 @@
 <?php
 
-namespace tests/mock;
+namespace tests\mock;
 
 class ThumbnailMaker extends \Picgallery\ThumbnailMakerInterface
 {
