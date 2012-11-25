@@ -2,14 +2,6 @@
 
 namespace Picgallery;
 
-require_once 'Zend/Loader.php';
-
-\Zend_Loader::loadClass('Zend_Gdata_Photos_UserQuery');
-\Zend_Loader::loadClass('Zend_Gdata_Photos_AlbumQuery');
-\Zend_Loader::loadClass('Zend_Gdata_Photos_AlbumEntry');
-
-require_once 'AlbumAdapter.php';
-
 class PicasaAlbumAdapter implements AlbumAdapter 
 {
     private $service;

@@ -1,18 +1,6 @@
 <?php
+
 namespace Picgallery;
-
-require_once 'Zend/Loader.php';
-
-\Zend_Loader::loadClass('Zend_Gdata');
-\Zend_Loader::loadClass('Zend_Gdata_AuthSub');
-\Zend_Loader::loadClass('Zend_Gdata_ClientLogin');
-\Zend_Loader::loadClass('Zend_Gdata_Photos');
-\Zend_Loader::loadClass('Zend_Gdata_Photos_PhotoQuery');
-
-require_once 'ImageRepository.php';
-require_once 'PicasaAlbumAdapter.php';
-require_once 'AlbumRepository.php';
-require_once 'Image.php';
 
 class PicasaRepository implements ImageRepository
 {

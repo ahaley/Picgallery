@@ -1,4 +1,5 @@
 <?php
+
 namespace Picgallery;
 
 class FileHelper
