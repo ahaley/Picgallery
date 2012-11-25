@@ -8,6 +8,7 @@ class AlbumRepositoryTest extends \PHPUnit_Framework_TestCase
 {
 	/**
 	 * @test
+     * @covers Picgallery\AlbumRepository::__construct
 	 */
 	public function ShouldCheckForRepoAlbumOnInstantiation()
     {
@@ -16,11 +17,12 @@ class AlbumRepositoryTest extends \PHPUnit_Framework_TestCase
             ->method('getAlbum')
             ->with($this->equalTo('Picgallery'))
             ->will($this->returnValue(new \stdClass));
-        $albumRepo = new \Picgallery\AlbumRepository($albumAdapter);
+        $albumRepo = new AlbumRepository($albumAdapter);
     }
 
     /**
      * @test
+     * @covers Picgallery\AlbumRepository::__constuct
      */
     public function ShouldCreateAlbumIfNotFound()
     {
@@ -40,6 +42,7 @@ class AlbumRepositoryTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
+     * @covers Picgallery\AlbumRepository::__construct
      * @expectedException Exception
      * @expectedExceptionMessage Could not retrieve album
      */

@@ -6,6 +6,7 @@ class PicasaRepositoryTest extends \PHPUnit_Framework_TestCase
 {
 	/**
 	 * @test
+     * @covers Picgallery\PicasaRepository::create
 	 */
 	public function CreateShouldReturnNullWithInvalidSession()
 	{

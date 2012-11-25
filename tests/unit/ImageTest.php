@@ -8,6 +8,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 {
 	/**
 	 * @test
+     * @covers Picgallery\Image::__construct
 	 */
 	public function ShouldInstantiateImage()
 	{
@@ -17,6 +18,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
     
     /**
      * @test
+     * @covers Picgallery\Image::setName
      */
     public function ShouldSetName()
     {
@@ -27,6 +29,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
+     * @covers Picgallery\Image::setThumbnailUrl
      */
     public function ShouldSetThumbnailUrl()
     {
@@ -38,6 +41,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
+     * @covers Picgallery\Image::setThumbnailUrl
      */
     public function ShouldSetUrl()
     {

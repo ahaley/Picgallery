@@ -8,6 +8,7 @@ class DropboxAdapterTest extends \PHPUnit_Framework_TestCase
 {
 	/**
 	 * @test
+     * @covers Picgallery\DropboxAdapter::getImageList
 	 */
 	public function ShouldExtractImageListFromDropboxApi()
 	{
