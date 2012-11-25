@@ -24,9 +24,7 @@ class FileStore implements FileStoreInterface
     public function uploadFile($filename, $source)
     {
         $destination = $this->_filePath($filename);
-        if (!move_uploaded_file($source, $destination)) {
-            copy($source, $destination);
-        }
+        copy($source, $destination);
     }
 
     public function getUrl($filename)
