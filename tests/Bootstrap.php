@@ -27,4 +27,4 @@ $include_path[] = LIBRARY_PATH;
 $include_path[] = ROOT_PATH . '/vendor/Dropbox';
 set_include_path(implode(PATH_SEPARATOR, $include_path));
 
-require_once 'Picgallery/FileHelper.php';
+require_once 'Picgallery.php';
