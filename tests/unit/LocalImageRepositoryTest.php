@@ -49,6 +49,6 @@ class LocalImageRepositoryTest extends \PHPUnit_Framework_TestCase
             'img.jpg', 'image/jpeg', '/tmp/img.jpg'
         );
 
-        $this->assertTrue(file_exists('local_path/img.jpg'));
+        $this->assertTrue($this->repository->imageExists('img.jpg'));
     }
 }
