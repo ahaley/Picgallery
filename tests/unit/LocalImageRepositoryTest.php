@@ -21,6 +21,7 @@ class LocalImageRepositoryTest extends \PHPUnit_Framework_TestCase
             $this->fileStore,
             $this->thumbnailStore
         );
+        $this->repository->setThumbnailMaker(new mock\ThumbnailMaker());
     }
 
     /**
@@ -50,5 +51,32 @@ class LocalImageRepositoryTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->assertTrue($this->repository->imageExists('img.jpg'));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldRemoveImage()
+    {
+        $name = 'img.jpg';
+        $this->repository->uploadImage($name, 'image/jpeg', '/tmp/img.jpg');
+        $this->repository->removeImage($name);
+        $this->assertFalse($this->repository->imageExists($name));
+    }
+
+    /**
+     * @test
+     */
+    public function shouldListImages()
+    {
+        $files = array('img1.jpg', 'img2.jpg', 'img3.jpg');
+        foreach ($files as $name) {
+            $this->repository->uploadImage($name, 'image/jpeg', '/path');
+        }
+        $images = $this->repository->getImages();
+
+
+        $this->assertEquals(3, count($images));
+
     }
 }

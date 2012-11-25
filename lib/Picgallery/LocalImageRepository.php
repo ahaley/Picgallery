@@ -7,10 +7,11 @@ class LocalImageRepository implements ImageRepository
 {
     private $fileStore;
     private $thumbnailStore;
+    private $_thumbnailMaker;
     
     public function __construct(
-        \Picgallery\FileStoreInterface $fileStore,
-        \Picgallery\FileStoreInterface $thumbnailStore)
+        FileStoreInterface $fileStore,
+        FileStoreInterface $thumbnailStore)
     {
         $this->fileStore = $fileStore;
         $this->thumbnailStore = $thumbnailStore;
@@ -49,9 +50,17 @@ class LocalImageRepository implements ImageRepository
         return $images;
     }
     
+    public function setThumbnailMaker(ThumbnailMakerInterface $thumbnailMaker)
+    {
+        $this->_thumbnailMaker = $thumbnailMaker;
+    }
+
     private function _getThumbnailMaker()
     {
-        return new ThumbnailMaker();
+        if ($this->_thumbnailMaker == null) {
+            $this->_thumbnailMaker = new ThumbnailMaker();
+        }
+        return $this->_thumbnailMaker;
     }
 
     private function _convertToImage($name)

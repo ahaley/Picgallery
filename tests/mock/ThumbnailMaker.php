@@ -2,10 +2,10 @@
 
 namespace tests\mock;
 
-class ThumbnailMaker extends \Picgallery\ThumbnailMakerInterface
+class ThumbnailMaker implements \Picgallery\ThumbnailMakerInterface
 {
     public function createThumbnail($name, $source)
     {
-        return false;
+        return "thumbnail" . DIRECTORY_SEPARATOR . $name;
     }
 }
