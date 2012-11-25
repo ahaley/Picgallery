@@ -35,6 +35,7 @@ class LocalImageRepositoryTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
+     * @covers Picgallery\LocalImageRepository::imageExists
      */
     public function shouldReturnFalseForNonexistantImageExist()
     {
@@ -43,6 +44,7 @@ class LocalImageRepositoryTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
+     * @covers Picgallery\LocalImageRepository::uploadImage
      */
     public function shouldUploadImage()
     {
@@ -55,6 +57,7 @@ class LocalImageRepositoryTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
+     * @covers Picgallery\LocalImageRepository::imageExists
      */
     public function shouldRemoveImage()
     {
@@ -64,19 +67,50 @@ class LocalImageRepositoryTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($this->repository->imageExists($name));
     }
 
-    /**
-     * @test
-     */
-    public function shouldListImages()
+    private function _uploadImages($images)
     {
-        $files = array('img1.jpg', 'img2.jpg', 'img3.jpg');
-        foreach ($files as $name) {
+        foreach ($images as $name) {
             $this->repository->uploadImage($name, 'image/jpeg', '/path');
         }
+    }
+
+    /**
+     * @test
+     * @covers Picgallery\LocalImageRepository::getImages
+     */
+    public function listImagesShouldProduceCorrectNumberOfImageObjects()
+    {
+        $this->_uploadImages(array('img1.jpg', 'img2.jpg', 'img3.jpg'));
         $images = $this->repository->getImages();
-
-
         $this->assertEquals(3, count($images));
+    }
 
+    /**
+     * @test
+     * @covers Picgallery\LocalImageRepository::getImages
+     */
+    public function listImagesShouldCorrectlyRetrieveImageUrl()
+    {
+        $this->_uploadImages(array('img1.jpg', 'img2.jpg', 'img3.jpg'));
+        $images = $this->repository->getImages();
+        $this->assertEquals('/url/img1.jpg', $images[0]->getUrl());
+        $this->assertEquals('/url/img2.jpg', $images[1]->getUrl());
+        $this->assertEquals('/url/img3.jpg', $images[2]->getUrl());
+    }
+
+    /**
+     * @test
+     * @covers Picgallery\LocalImageRepository::getImages
+     */
+    public function listImagesShouldCorrectlyRetrieveThumbnailUrl()
+    {
+        $this->_uploadImages(array('img1.jpg', 'img2.jpg', 'img3.jpg'));
+        $images = $this->repository->getImages();
+        $this->assertEquals('/url/thumbnails/img1.jpg',
+            $images[0]->getThumbnailUrl());
+        $this->assertEquals('/url/thumbnails/img2.jpg',
+            $images[1]->getThumbnailUrl());
+        $this->assertEquals('/url/thumbnails/img3.jpg',
+            $images[2]->getThumbnailUrl());
     }
 }
