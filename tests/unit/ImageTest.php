@@ -8,7 +8,6 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 {
 	/**
 	 * @test
-     * @covers Picgallery\Image::__construct
 	 */
 	public function ShouldInstantiateImage()
 	{

@@ -22,7 +22,7 @@ class AlbumRepositoryTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @covers Picgallery\AlbumRepository::__constuct
+     * @covers Picgallery\AlbumRepository::__construct
      */
     public function ShouldCreateAlbumIfNotFound()
     {

@@ -6,7 +6,7 @@ class FileHelperTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @test
-     * @covers Picgallery\FileHelper::getFileExistension
+     * @covers Picgallery\FileHelper::getFileExtension
      */
 	public function ShouldReturnFileExtensionForValidFile()
 	{

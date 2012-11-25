@@ -65,4 +65,14 @@
     </exec>
   </target>
 
+  <target name="code-coverage">
+    <exec dir="tests" checkreturn="true"
+      command="phpunit --log-junit '${project.basedir}/build/reports/unitreport.xml'
+                       --coverage-html '${project.basedir}/build/reports/coverage'
+                       --coverage-clover '${project.basedir}/build/reports/coverage/coverage.xml'"
+    
+    />
+    
+  </target>
+
 </project>
