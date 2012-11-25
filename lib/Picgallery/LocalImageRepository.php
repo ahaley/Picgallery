@@ -5,80 +5,62 @@ require_once 'ImageRepository.php';
 
 class LocalImageRepository implements ImageRepository
 {
-	private $local_path;
-	private $url_path;
-	
-    public function __construct($local_path, $url_path)
+    private $fileStore;
+    private $thumbnailStore;
+    
+    public function __construct(
+        \Picgallery\FileStoreInterface $fileStore,
+        \Picgallery\FileStoreInterface $thumbnailStore)
     {
-    	$this->local_path = $local_path;
-    	if (!file_exists($local_path))
-    		mkdir($local_path, 0777, true);
-    	$this->url_path = $url_path;
+        $this->fileStore = $fileStore;
+        $this->thumbnailStore = $thumbnailStore;
     }
 
-	public function imageExists($image)
-	{
-		return file_exists($this->local_path . '/' . $image);
-	}
-	
-	public function uploadImage($title, $mime, $tmp_path)
-	{
-		$destination = $this->local_path . '/' . $title;
-		$result = move_uploaded_file($tmp_path, $destination);
-		
-		if (!$result) {
-			rename($tmp_path, $destination);
-		}
-		
-		$image = new \Imagick($destination);
-		$imageprops = $image->getImageGeometry();
-    	if ($imageprops['width'] <= 200 && $imageprops['height'] <= 200) {
-    	} else {
-        	$image->resizeImage(200,200, \Imagick::FILTER_LANCZOS, 0.9, true);
-    	}
-    	
-    	$thumb_path = $this->local_path . '/thumbnails/';
-    	
-    	if (!file_exists($thumb_path))
-    		mkdir($thumb_path);
-    	
-    	$image->writeImage($thumb_path . '/' . $title);
-    	
-    	return $this->_convertToImage($title, $this->local_path);
-	}
-	
-	public function removeImage($id)
-	{
-		$file = $this->local_path . '/' . $id;
-		if (file_exists($file)) {
-			return unlink($file);
-		}
-		return false;
-	}
+    public function imageExists($name)
+    {
+        return $this->fileStore->fileExists($name);
+    }
+    
+    public function uploadImage($name, $mime, $source)
+    {
+        $this->fileStore->uploadFile($name, $source);    
+        $thumbnailMaker = $this->_getThumbnailMaker();
+        $thumbnailPath = $thumbnailMaker->createThumbnail($name, $source);
+        $this->thumbnailStore->uploadFile($name, $thumbnailPath);
+        return $this->_convertToImage($name);
+    }
+    
+    public function removeImage($name)
+    {
+        return $this->fileStore->removeFile($name)
+            && $this->thumbnailStore->removeFile($name);
+    }
     
     public function getImages()
     {
-    	$images = array();
-    	$helper = new FileHelper();
-    	if ($handle = opendir($this->local_path)) {
-    		while (false !== ($entry = readdir($handle))) {
-    			if (!$helper->isImageFileType($entry))
-    				continue;
-    				
-    			$images[] = $this->_convertToImage($entry, $this->local_path);
-    		}
-    		closedir($handle);
-    	}
-    	return $images;
+        $files = $this->fileStore->listFiles();
+        $images = array();
+        $helper = new FileHelper();
+        foreach ($files as $filename) {
+            if ($helper->isImageFileType($filename)) {
+                $images[] = $this->_convertToImage($filename);
+            }
+        }
+        return $images;
     }
     
-    private function _convertToImage($filename, $path)
+    private function _getThumbnailMaker()
     {
-    	$image = new Image();
-    	$image->setName($filename);
-    	$image->setUrl($this->url_path . '/' . $filename);
-    	$image->setThumbnailUrl($this->url_path . '/thumbnails/' . $filename);
-    	$image->setSize(filesize($path . '/' . $filename));
-    	return $image;
+        return new ThumbnailMaker();
+    }
+
+    private function _convertToImage($name)
+    {
+        $image = new Image();
+        $image->setName($name);
+        $image->setUrl($this->fileStore->getUrl($name));
+        $image->setThumbnailUrl($this->thumbnailStore->getUrl($name));
+        $image->setSize($this->fileStore->getFileSize($name));
+        return $image;
     }
 }

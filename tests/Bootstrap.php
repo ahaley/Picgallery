@@ -2,6 +2,12 @@
 
 define('ROOT_PATH', dirname(__DIR__));
 define('LIBRARY_PATH', realpath(ROOT_PATH . '/lib'));
+
+require_once LIBRARY_PATH . '/SplClassLoader.php';
+
+$classLoader = new SplClassLoader('tests', __DIR__ . '/..');
+$classLoader->register();
+
 $google_user = getenv('GOOGLE_USER');
 if (!$google_user) {
     echo <<<EOT
