@@ -1,11 +1,10 @@
 <?php
 
-require_once 'PHPUnit/Framework/TestCase.php';
-require_once 'Picgallery/DropboxAdapter.php';
+namespace tests\unit;
 
 use Picgallery\DropboxAdapter;
 
-class DropboxAdapterTest extends PHPUnit_Framework_TestCase
+class DropboxAdapterTest extends \PHPUnit_Framework_TestCase
 {
 	/**
 	 * @test
@@ -26,7 +25,7 @@ class DropboxAdapterTest extends PHPUnit_Framework_TestCase
 	
 	private function createDropboxObject()
 	{
-		$dropbox = $this->getMock('stdObject', array('metaData'));
+		$dropbox = $this->getMock('\stdObject', array('metaData'));
 		$dropbox->expects($this->once())
 			->method('metaData')
 			->will($this->returnValue($this->createMetadata()));
@@ -35,7 +34,7 @@ class DropboxAdapterTest extends PHPUnit_Framework_TestCase
 	
 	private function createMetadata()
 	{
-		$body = new stdClass;
+		$body = new \stdClass;
 		$body->contents = array(
 			(object)array(
 				'path' => 'path/file1.png',

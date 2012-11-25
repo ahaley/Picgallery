@@ -1,13 +1,11 @@
 <?php
 
-require_once 'PHPUnit/Framework/TestCase.php';
-require_once 'Picgallery/GoogleSession.php';
-require_once 'Picgallery/AuthSubGoogleSession.php';
+namespace tests\unit;
 
 use Picgallery\GoogleSession;
 use Picgallery\AuthSubGoogleSession;
 
-class GoogleSessionTest extends PHPUnit_Framework_TestCase
+class GoogleSessionTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @test

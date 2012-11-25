@@ -1,9 +1,8 @@
 <?php
 
-require_once 'PHPUnit/Framework/TestCase.php';
-require_once 'Picgallery.php';
+namespace tests\unit;
 
-class PicasaRepositoryTest extends PHPUnit_Framework_TestCase
+class PicasaRepositoryTest extends \PHPUnit_Framework_TestCase
 {
 	/**
 	 * @test

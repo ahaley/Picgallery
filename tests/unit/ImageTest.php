@@ -1,11 +1,10 @@
 <?php
 
-require_once 'PHPUnit/Framework/TestCase.php';
-require_once 'Picgallery/Image.php';
+namespace tests\unit;
 
 use Picgallery\Image;
 
-class ImageTest extends PHPUnit_Framework_TestCase
+class ImageTest extends \PHPUnit_Framework_TestCase
 {
 	/**
 	 * @test
