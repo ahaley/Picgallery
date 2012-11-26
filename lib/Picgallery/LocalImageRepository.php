@@ -1,7 +1,6 @@
 <?php
-namespace Picgallery;
 
-require_once 'ImageRepository.php';
+namespace Picgallery;
 
 class LocalImageRepository implements ImageRepository
 {
