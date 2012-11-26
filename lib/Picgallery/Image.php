@@ -4,14 +4,14 @@ namespace Picgallery;
 
 class Image
 {
-	private $id;
+    private $id;
     private $name;
     private $thumbnail;
     private $url;
     private $size;
     
-	public function setId($id) { $this->id = $id; }
-	public function getId() { return $this->id; }
+    public function setId($id) { $this->id = $id; }
+    public function getId() { return $this->id; }
     public function setName($name) { $this->name = $name; }
     public function getName() { return $this->name; }
     public function setThumbnailUrl($thumbnail) { $this->thumbnail = $thumbnail; }

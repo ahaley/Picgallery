@@ -23,9 +23,9 @@ class GoogleSessionTest extends \PHPUnit_Framework_TestCase
     public function ShouldHaveNullHttpClientWhenSessionVariablesMissing()
     {
         $username = 'user1';
-		global $_SESSION, $_GET;
-		unset($_SESSION['google_token']);
-		unset($_GET['token']);
+        global $_SESSION, $_GET;
+        unset($_SESSION['google_token']);
+        unset($_GET['token']);
         $googleSession = new AuthSubGoogleSession($username);
         $this->assertNull($googleSession->getHttpClient());
     }

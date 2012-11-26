@@ -6,11 +6,11 @@ use Picgallery\Image;
 
 class ImageTest extends \PHPUnit_Framework_TestCase
 {
-	/**
-	 * @test
-	 */
-	public function ShouldInstantiateImage()
-	{
+    /**
+     * @test
+     */
+    public function ShouldInstantiateImage()
+    {
         $image = new Image();
         $this->assertInstanceOf('Picgallery\Image', $image);
     }
@@ -21,9 +21,9 @@ class ImageTest extends \PHPUnit_Framework_TestCase
      */
     public function ShouldSetName()
     {
-    	$image = new Image();
-    	$image->setName('thename1');
-    	$this->assertEquals('thename1', $image->getName());
+        $image = new Image();
+        $image->setName('thename1');
+        $this->assertEquals('thename1', $image->getName());
     }
 
     /**
