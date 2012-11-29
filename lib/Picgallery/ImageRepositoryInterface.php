@@ -2,7 +2,7 @@
 
 namespace Picgallery;
 
-interface ImageRepository
+interface ImageRepositoryInterface
 {
     public function imageExists($image);
     public function uploadImage($title, $mime, $tmp_path);

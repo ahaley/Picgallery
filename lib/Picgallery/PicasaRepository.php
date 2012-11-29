@@ -2,7 +2,7 @@
 
 namespace Picgallery;
 
-class PicasaRepository implements ImageRepository
+class PicasaRepository implements ImageRepositoryInterface
 {
     private $service;
     private $username;

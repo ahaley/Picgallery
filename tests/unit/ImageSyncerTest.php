@@ -18,7 +18,7 @@ class ImageSyncerTest extends \PHPUnit_Framework_TestCase
 
     private function GivenAImageSyncer()
     {
-        $repository = $this->getMock('Picgallery\ImageRepository');
+        $repository = $this->getMock('Picgallery\ImageRepositoryInterface');
         
         $repository->expects($this->any())
                    ->method('imageExists')

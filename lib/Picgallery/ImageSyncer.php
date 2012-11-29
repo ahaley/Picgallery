@@ -6,7 +6,7 @@ class ImageSyncer
 {
     private $repository;
     
-    public function __construct(ImageRepository $repository)
+    public function __construct(ImageRepositoryInterface $repository)
     {
         $this->repository = $repository;
     }

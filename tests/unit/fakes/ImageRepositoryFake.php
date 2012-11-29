@@ -2,9 +2,7 @@
 
 namespace Picgallery;
 
-require_once 'Picgallery/ImageRepository.php';
-
-class ImageRepositoryFake implements ImageRepository
+class ImageRepositoryFake implements \Picgallery\ImageRepositoryInterface
 {
     private $images;
 
