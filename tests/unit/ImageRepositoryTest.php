@@ -4,7 +4,7 @@ namespace tests\unit;
 
 use tests\mock;
 
-class LocalImageRepositoryTest extends \PHPUnit_Framework_TestCase
+class ImageRepositoryTest extends \PHPUnit_Framework_TestCase
 {
     private $fileStore;
     private $repository;
@@ -17,7 +17,7 @@ class LocalImageRepositoryTest extends \PHPUnit_Framework_TestCase
         $urlThumb = $urlPath . '/thumbnails';
         $this->fileStore = new mock\FileStore($localPath, $urlPath);
         $this->thumbnailStore = new mock\FileStore($thumbPath, $urlThumb);
-        $this->repository = new \Picgallery\LocalImageRepository(
+        $this->repository = new \Picgallery\ImageRepository(
             $this->fileStore,
             $this->thumbnailStore
         );
@@ -30,12 +30,12 @@ class LocalImageRepositoryTest extends \PHPUnit_Framework_TestCase
     public function shouldInstantiateObjectOfCorrectType()
     {
         $this->assertInstanceOf(
-            '\Picgallery\LocalImageRepository', $this->repository);
+            '\Picgallery\ImageRepository', $this->repository);
     }
 
     /**
      * @test
-     * @covers Picgallery\LocalImageRepository::imageExists
+     * @covers Picgallery\ImageRepository::imageExists
      */
     public function shouldReturnFalseForNonexistantImageExist()
     {
@@ -44,7 +44,7 @@ class LocalImageRepositoryTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @covers Picgallery\LocalImageRepository::uploadImage
+     * @covers Picgallery\ImageRepository::uploadImage
      */
     public function shouldUploadImage()
     {
@@ -57,7 +57,7 @@ class LocalImageRepositoryTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @covers Picgallery\LocalImageRepository::removeImage
+     * @covers Picgallery\ImageRepository::removeImage
      */
     public function shouldRemoveImage()
     {
@@ -76,7 +76,7 @@ class LocalImageRepositoryTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @covers Picgallery\LocalImageRepository::getImages
+     * @covers Picgallery\ImageRepository::getImages
      */
     public function listImagesShouldProduceCorrectNumberOfImageObjects()
     {
@@ -87,7 +87,7 @@ class LocalImageRepositoryTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @covers Picgallery\LocalImageRepository::getImages
+     * @covers Picgallery\ImageRepository::getImages
      */
     public function listImagesShouldCorrectlyRetrieveImageUrl()
     {
@@ -100,7 +100,7 @@ class LocalImageRepositoryTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @test
-     * @covers Picgallery\LocalImageRepository::getImages
+     * @covers Picgallery\ImageRepository::getImages
      */
     public function listImagesShouldCorrectlyRetrieveThumbnailUrl()
     {

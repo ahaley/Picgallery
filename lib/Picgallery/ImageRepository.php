@@ -2,7 +2,7 @@
 
 namespace Picgallery;
 
-class LocalImageRepository implements ImageRepositoryInterface
+class ImageRepository implements ImageRepositoryInterface
 {
     private $fileStore;
     private $thumbnailStore;
