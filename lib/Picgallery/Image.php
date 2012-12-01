@@ -6,9 +6,19 @@ class Image
 {
     private $name;
     private $gallery;
-    private $thumbnail_url;
     private $url;
+    private $thumbnail_url;
     private $size;
+
+    public static function populate($values)
+    {
+        $image = new self;
+        $image->name = $values['name'];
+        $image->gallery = $values['gallery'];
+        $image->url = $values['url'];
+        $image->thumbnail_url = $values['thumbnail_url'];
+        return $image;
+    }
     
     public function getName() { return $this->name; }
     public function setName($name) { $this->name = $name; }
