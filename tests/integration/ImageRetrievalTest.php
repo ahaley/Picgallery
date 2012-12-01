@@ -3,6 +3,7 @@
 namespace tests\integration;
 
 use \Picgallery\ImageRetrieval;
+use tests\fixture;
 
 class ImageRetrievalTest extends \PHPUnit_Framework_TestCase
 {
@@ -10,7 +11,7 @@ class ImageRetrievalTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $conn = tests\fixture\Database::createDoctrineConnection(); 
+        $conn = fixture\Database::createDoctrineConnection(); 
         $this->retrieval = new ImageRetrieval($conn);
     }
 
