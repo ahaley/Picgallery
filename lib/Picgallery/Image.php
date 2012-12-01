@@ -13,10 +13,10 @@ class Image
     public static function populate($values)
     {
         $image = new self;
-        $image->name = $values['name'];
-        $image->gallery = $values['gallery'];
-        $image->url = $values['url'];
-        $image->thumbnail_url = $values['thumbnail_url'];
+        foreach ($values as $key => $value) {
+            if (property_exists($image, $key))
+                $image->$key = $value;
+        }
         return $image;
     }
     
