@@ -23,5 +23,12 @@ class ImageRetrieval implements ImageRetrievalInterface
 
     public function getImages()
     {
+        $sql = "SELECT gallery, name, url, thumbnail_url FROM picgallery_image";
+        $stmt = $this->conn->query($sql);
+        $images = array();
+        while ($row = $stmt->fetch()) {
+            $images[] = Image::populate($row);
+        }
+        return $images;
     }
 }

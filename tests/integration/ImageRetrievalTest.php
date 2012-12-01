@@ -32,9 +32,9 @@ class ImageRetrievalTest extends \PHPUnit_Framework_TestCase
     public function listImagesShouldCorrectlyRetrieveImageUrl()
     {
         $images = $this->retrieval->getImages();
-        $this->assertEquals('/url/img1.jpg', $images[0]->getUrl());
-        $this->assertEquals('/url/img2.jpg', $images[1]->getUrl());
-        $this->assertEquals('/url/img3.jpg', $images[2]->getUrl());
+        $this->assertEquals('/gallery1/image1.jpg', $images[0]->getUrl());
+        $this->assertEquals('/gallery1/image2.jpg', $images[1]->getUrl());
+        $this->assertEquals('/gallery2/img1.jpg', $images[2]->getUrl());
     }
 
     /**
@@ -44,11 +44,11 @@ class ImageRetrievalTest extends \PHPUnit_Framework_TestCase
     public function listImagesShouldCorrectlyRetrieveThumbnailUrl()
     {
         $images = $this->retrieval->getImages();
-        $this->assertEquals('/url/thumbnails/img1.jpg',
+        $this->assertEquals('/gallery1/thumb/image1.jpg',
             $images[0]->getThumbnailUrl());
-        $this->assertEquals('/url/thumbnails/img2.jpg',
+        $this->assertEquals('/gallery1/thumb/image2.jpg',
             $images[1]->getThumbnailUrl());
-        $this->assertEquals('/url/thumbnails/img3.jpg',
+        $this->assertEquals('/gallery2/thumb/img1.jpg',
             $images[2]->getThumbnailUrl());
     }
 }

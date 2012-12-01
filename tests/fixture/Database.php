@@ -23,7 +23,8 @@ class Database
 
     private static function _reloadDatabase()
     {
-        system(ROOT_PATH . '/db/reload_integration.sh');
+        chdir(ROOT_PATH . '/db');
+        system('./reload_integration.sh');
     }
 
 }
