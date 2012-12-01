@@ -4,7 +4,7 @@ namespace Picgallery;
 
 interface ImageRepositoryInterface
 {
-    public function uploadImage($title, $mime, $tmp_path);
-    public function removeImage($id);
+    public function uploadImage($name, $type, $path);
+    public function removeImage($name);
     public function getImages();
 }
