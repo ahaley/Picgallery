@@ -9,6 +9,7 @@ class Database
 {
     public static function createDoctrineConnection()
     {
+        self::_reloadDatabase();
         $config = new Configuration();
         $params = array(
             'dbname' => 'picgallery_integration',
@@ -18,6 +19,11 @@ class Database
             'password' => getenv('MYSQL_PASSWORD')
         );
         return DriverManager::getConnection($params, $config);
+    }
+
+    private static function _reloadDatabase()
+    {
+        system(ROOT_PATH . '/db/reload_integration.sh');
     }
 
 }

@@ -1,6 +1,6 @@
 <?php
 
-define('ROOT_PATH', dirname(__DIR__));
+define('ROOT_PATH', dirname(__DIR__ . '..'));
 define('LIBRARY_PATH', realpath(ROOT_PATH . '/lib'));
 
 require_once LIBRARY_PATH . '/SplClassLoader.php';
