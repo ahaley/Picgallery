@@ -4,71 +4,34 @@ namespace Picgallery;
 
 class ImageRepository implements ImageRepositoryInterface
 {
-    private $fileStore;
-    private $thumbnailStore;
-    private $_thumbnailMaker;
+    private $store;
+    private $retrieval;
     
     public function __construct(
-        FileStoreInterface $fileStore,
-        FileStoreInterface $thumbnailStore)
+        ImageStoreInterface $store,
+        ImageRetrievalInterface $retrieval)
     {
-        $this->fileStore = $fileStore;
-        $this->thumbnailStore = $thumbnailStore;
+        $this->store = $store;
+        $this->retrieval = $retrieval;
     }
 
     public function imageExists($name)
     {
-        return $this->fileStore->fileExists($name);
+        return $this->retrieval->imageExists($name);
     }
     
-    public function uploadImage($name, $mime, $source)
+    public function uploadImage($name, $type, $path)
     {
-        $this->fileStore->uploadFile($name, $source);    
-        $thumbnailMaker = $this->_getThumbnailMaker();
-        $thumbnailPath = $thumbnailMaker->createThumbnail($name, $source);
-        $this->thumbnailStore->uploadFile($name, $thumbnailPath);
-        return $this->_convertToImage($name);
+        return $this->store->upload($name, $type, $path);
     }
     
     public function removeImage($name)
     {
-        return $this->fileStore->removeFile($name)
-            && $this->thumbnailStore->removeFile($name);
+        return $this->retrieval->disable($name);
     }
     
     public function getImages()
     {
-        $files = $this->fileStore->listFiles();
-        $images = array();
-        $helper = new FileHelper();
-        foreach ($files as $filename) {
-            if ($helper->isImageFileType($filename)) {
-                $images[] = $this->_convertToImage($filename);
-            }
-        }
-        return $images;
-    }
-    
-    public function setThumbnailMaker(ThumbnailMakerInterface $thumbnailMaker)
-    {
-        $this->_thumbnailMaker = $thumbnailMaker;
-    }
-
-    private function _getThumbnailMaker()
-    {
-        if ($this->_thumbnailMaker == null) {
-            $this->_thumbnailMaker = new ThumbnailMaker();
-        }
-        return $this->_thumbnailMaker;
-    }
-
-    private function _convertToImage($name)
-    {
-        $image = new Image();
-        $image->setName($name);
-        $image->setUrl($this->fileStore->getUrl($name));
-        $image->setThumbnailUrl($this->thumbnailStore->getUrl($name));
-        $image->setSize($this->fileStore->getFileSize($name));
-        return $image;
+        return $this->retrieval->getImages();
     }
 }

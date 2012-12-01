@@ -11,67 +11,46 @@ class ImageRepositoryTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $localPath = 'local_path';
-        $thumbPath = $localPath . '/thumbnails';
-        $urlPath = '/url';
-        $urlThumb = $urlPath . '/thumbnails';
-        $this->fileStore = new mock\FileStore($localPath, $urlPath);
-        $this->thumbnailStore = new mock\FileStore($thumbPath, $urlThumb);
+        $this->store = $this->getMock('\Picgallery\ImageStoreInterface');
+        $this->retrieval = $this->getMock(
+            '\Picgallery\ImageRetrievalInterface');
         $this->repository = new \Picgallery\ImageRepository(
-            $this->fileStore,
-            $this->thumbnailStore
+            $this->store, $this->retrieval
         );
-        $this->repository->setThumbnailMaker(new mock\ThumbnailMaker());
     }
 
     /**
      * @test
+     * @covers \Picgallery\ImageRepository::uploadImage
      */
-    public function shouldInstantiateObjectOfCorrectType()
+    public function uploadImageForwardsToStore()
     {
-        $this->assertInstanceOf(
-            '\Picgallery\ImageRepository', $this->repository);
-    }
+        $this->store->expects($this->once())
+            ->method('upload')
+            ->with(
+                $this->equalTo('img.jpg'),
+                $this->equalTo('image/jpeg'),
+                $this->equalTo('/tmp/img.jpg')
+            );
+                
 
-    /**
-     * @test
-     * @covers Picgallery\ImageRepository::imageExists
-     */
-    public function shouldReturnFalseForNonexistantImageExist()
-    {
-        $this->assertFalse($this->repository->imageExists('nonexistant.png'));
-    }
-
-    /**
-     * @test
-     * @covers Picgallery\ImageRepository::uploadImage
-     */
-    public function shouldUploadImage()
-    {
         $this->repository->uploadImage(
             'img.jpg', 'image/jpeg', '/tmp/img.jpg'
         );
-
-        $this->assertTrue($this->repository->imageExists('img.jpg'));
     }
 
     /**
      * @test
      * @covers Picgallery\ImageRepository::removeImage
      */
-    public function shouldRemoveImage()
+    public function removeImageShouldDisableFromRetrieval()
     {
         $name = 'img.jpg';
-        $this->repository->uploadImage($name, 'image/jpeg', '/tmp/img.jpg');
-        $this->repository->removeImage($name);
-        $this->assertFalse($this->repository->imageExists($name));
-    }
+        $this->retrieval->expects($this->once())
+            ->method('disable')
+            ->with($this->equalTo($name));
 
-    private function _uploadImages($images)
-    {
-        foreach ($images as $name) {
-            $this->repository->uploadImage($name, 'image/jpeg', '/path');
-        }
+        $this->repository->removeImage($name);
     }
 
     /**
@@ -80,37 +59,13 @@ class ImageRepositoryTest extends \PHPUnit_Framework_TestCase
      */
     public function listImagesShouldProduceCorrectNumberOfImageObjects()
     {
-        $this->_uploadImages(array('img1.jpg', 'img2.jpg', 'img3.jpg'));
-        $images = $this->repository->getImages();
-        $this->assertEquals(3, count($images));
+        $images = array();
+        $this->retrieval->expects($this->once())
+            ->method('getImages')
+            ->will($this->returnValue($images));
+
+        $result = $this->repository->getImages();
+        $this->assertTrue($images === $result);
     }
 
-    /**
-     * @test
-     * @covers Picgallery\ImageRepository::getImages
-     */
-    public function listImagesShouldCorrectlyRetrieveImageUrl()
-    {
-        $this->_uploadImages(array('img1.jpg', 'img2.jpg', 'img3.jpg'));
-        $images = $this->repository->getImages();
-        $this->assertEquals('/url/img1.jpg', $images[0]->getUrl());
-        $this->assertEquals('/url/img2.jpg', $images[1]->getUrl());
-        $this->assertEquals('/url/img3.jpg', $images[2]->getUrl());
-    }
-
-    /**
-     * @test
-     * @covers Picgallery\ImageRepository::getImages
-     */
-    public function listImagesShouldCorrectlyRetrieveThumbnailUrl()
-    {
-        $this->_uploadImages(array('img1.jpg', 'img2.jpg', 'img3.jpg'));
-        $images = $this->repository->getImages();
-        $this->assertEquals('/url/thumbnails/img1.jpg',
-            $images[0]->getThumbnailUrl());
-        $this->assertEquals('/url/thumbnails/img2.jpg',
-            $images[1]->getThumbnailUrl());
-        $this->assertEquals('/url/thumbnails/img3.jpg',
-            $images[2]->getThumbnailUrl());
-    }
 }
