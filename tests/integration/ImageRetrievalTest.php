@@ -7,12 +7,11 @@ use tests\fixture;
 
 class ImageRetrievalTest extends \PHPUnit_Framework_TestCase
 {
-    private $retrieval;
+    private $conn;
 
     public function setUp()
     {
-        $conn = fixture\Database::createDoctrineConnection(); 
-        $this->retrieval = new ImageRetrieval($conn);
+        $this->conn = fixture\Database::createDoctrineConnection(); 
     }
 
     /**
@@ -21,8 +20,9 @@ class ImageRetrievalTest extends \PHPUnit_Framework_TestCase
      */
     public function listImagesShouldProduceCorrectNumberOfImageObjects()
     {
-        $images = $this->retrieval->getImages();
-        $this->assertEquals(3, count($images));
+        $retrieval = new \Picgallery\ImageRetrieval($this->conn, 'gallery1');
+        $images = $retrieval->getImages();
+        $this->assertEquals(2, count($images));
     }
 
     /**
@@ -31,10 +31,10 @@ class ImageRetrievalTest extends \PHPUnit_Framework_TestCase
      */
     public function listImagesShouldCorrectlyRetrieveImageUrl()
     {
-        $images = $this->retrieval->getImages();
+        $retrieval = new \Picgallery\ImageRetrieval($this->conn, 'gallery1');
+        $images = $retrieval->getImages();
         $this->assertEquals('/gallery1/image1.jpg', $images[0]->getUrl());
         $this->assertEquals('/gallery1/image2.jpg', $images[1]->getUrl());
-        $this->assertEquals('/gallery2/img1.jpg', $images[2]->getUrl());
     }
 
     /**
@@ -43,13 +43,12 @@ class ImageRetrievalTest extends \PHPUnit_Framework_TestCase
      */
     public function listImagesShouldCorrectlyRetrieveThumbnailUrl()
     {
-        $images = $this->retrieval->getImages();
+        $retrieval = new \Picgallery\ImageRetrieval($this->conn, 'gallery1');
+        $images = $retrieval->getImages();
         $this->assertEquals('/gallery1/thumb/image1.jpg',
             $images[0]->getThumbnailUrl());
         $this->assertEquals('/gallery1/thumb/image2.jpg',
             $images[1]->getThumbnailUrl());
-        $this->assertEquals('/gallery2/thumb/img1.jpg',
-            $images[2]->getThumbnailUrl());
     }
 
     /**
@@ -58,12 +57,25 @@ class ImageRetrievalTest extends \PHPUnit_Framework_TestCase
      */
     public function getImageShouldRetrieveSingleImage()
     {
-        $result = $this->retrieval->getImage('gallery1', 'image1.jpg');
+        $retrieval = new \Picgallery\ImageRetrieval($this->conn, 'gallery1');
+        $result = $retrieval->getImage('image1.jpg');
         $this->assertInstanceOf('\Picgallery\Image', $result);
         $this->assertEquals('image1.jpg', $result->getName());
     }
 
     /**
+     * @test
+     * @covers Picgallery\ImageRetrieval::getImage
+     */
+    public function getImageShouldReturnNullForNonexistantImage()
+    {
+        $retrieval = new \Picgallery\ImageRetrieval($this->conn, 'gallery1');
+        $result = $retrieval->getImage('doesnotexist.jpg');
+        $this->assertNull($result);
+    }
+
+    /**
+     * @test
      * @covers Picgallery\ImageRetrieval::record
      */
     public function recordShouldStoreImageModelInDatabase()
@@ -73,8 +85,11 @@ class ImageRetrievalTest extends \PHPUnit_Framework_TestCase
             'gallery' => 'gallery1',
         ));
 
-        $this->retrieval->record($image);
+        $retrieval = new \Picgallery\ImageRetrieval($this->conn, 'gallery1');
+        $retrieval->record($image);
 
-//        $result = $this->retrieval->
+        $result = $retrieval->getImage('record1');
+        
+        $this->assertEquals($image, $result);
     }
 }
