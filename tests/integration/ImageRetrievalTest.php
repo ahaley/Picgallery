@@ -51,4 +51,30 @@ class ImageRetrievalTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('/gallery2/thumb/img1.jpg',
             $images[2]->getThumbnailUrl());
     }
+
+    /**
+     * @test
+     * @covers Picgallery\ImageRetrieval::getImage
+     */
+    public function getImageShouldRetrieveSingleImage()
+    {
+        $result = $this->retrieval->getImage('gallery1', 'image1.jpg');
+        $this->assertInstanceOf('\Picgallery\Image', $result);
+        $this->assertEquals('image1.jpg', $result->getName());
+    }
+
+    /**
+     * @covers Picgallery\ImageRetrieval::record
+     */
+    public function recordShouldStoreImageModelInDatabase()
+    {
+        $image = \Picgallery\Image::populate(array(
+            'name' => 'record1',
+            'gallery' => 'gallery1',
+        ));
+
+        $this->retrieval->record($image);
+
+//        $result = $this->retrieval->
+    }
 }

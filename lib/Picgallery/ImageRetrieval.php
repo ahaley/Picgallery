@@ -21,6 +21,19 @@ class ImageRetrieval implements ImageRetrievalInterface
         return false;
     }
 
+    public function getImage($gallery, $name)
+    {
+        $sql = <<<EOD
+            SELECT gallery, name, url, thumbnail_url FROM picgallery_image
+            WHERE gallery = :gallery AND name = :name
+EOD;
+        $result = $this->conn->fetchAssoc($sql, array(
+            'gallery' => $gallery,
+            'name' => $name
+        ));
+        return Image::populate($result);
+    }
+
     public function getImages()
     {
         $sql = "SELECT gallery, name, url, thumbnail_url FROM picgallery_image";
