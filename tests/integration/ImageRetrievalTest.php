@@ -83,6 +83,8 @@ class ImageRetrievalTest extends \PHPUnit_Framework_TestCase
         $image = \Picgallery\Image::populate(array(
             'name' => 'record1',
             'gallery' => 'gallery1',
+            'url' => '/url',
+            'thumbnail_url' => '/thumb'
         ));
 
         $retrieval = new \Picgallery\ImageRetrieval($this->conn, 'gallery1');
