@@ -42,6 +42,11 @@ class ImageStoreTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('\Picgallery\Image', $image);
         
         $this->assertEquals('/gallery/gallery1/teapot1.jpg', $image->getUrl());
+        $this->assertEquals('/gallery/gallery1/thumbnails/teapot1.jpg',
+            $image->getThumbnailUrl());
+
+        $this->assertTrue(file_exists('/tmp/gallery1/teapot1.jpg'));
+        $this->assertTrue(file_exists('/tmp/gallery1/thumbnails/teapot1.jpg'));
 
     }
 }
