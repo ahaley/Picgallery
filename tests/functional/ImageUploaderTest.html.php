@@ -11,7 +11,7 @@ include 'header.php';
 
 $upload_name = 'uploadedfile';
 
-$local_path = 'upload';	
+$local_path = 'upload';
 $url_path = dirname($_SERVER['PHP_SELF']) . '/' . $local_path;
 
 $repository = new LocalImageRepository($local_path, $url_path);

@@ -1,9 +1,8 @@
 <?php
+
 namespace Picgallery;
 
-require_once 'ImageRepository.php';
-
-class LocalImageRepository implements ImageRepository
+class ImageStore implements ImageStoreInterface
 {
     private $fileStore;
     private $thumbnailStore;
@@ -17,37 +16,19 @@ class LocalImageRepository implements ImageRepository
         $this->thumbnailStore = $thumbnailStore;
     }
 
-    public function imageExists($name)
+    public function upload($name, $type, $path)
     {
-        return $this->fileStore->fileExists($name);
-    }
-    
-    public function uploadImage($name, $mime, $source)
-    {
-        $this->fileStore->uploadFile($name, $source);    
+        $this->fileStore->uploadFile($name, $path);    
         $thumbnailMaker = $this->_getThumbnailMaker();
-        $thumbnailPath = $thumbnailMaker->createThumbnail($name, $source);
+        $thumbnailPath = $thumbnailMaker->createThumbnail($name, $path);
         $this->thumbnailStore->uploadFile($name, $thumbnailPath);
         return $this->_convertToImage($name);
     }
-    
-    public function removeImage($name)
+
+    public function remove($name)
     {
-        return $this->fileStore->removeFile($name)
-            && $this->thumbnailStore->removeFile($name);
-    }
-    
-    public function getImages()
-    {
-        $files = $this->fileStore->listFiles();
-        $images = array();
-        $helper = new FileHelper();
-        foreach ($files as $filename) {
-            if ($helper->isImageFileType($filename)) {
-                $images[] = $this->_convertToImage($filename);
-            }
-        }
-        return $images;
+        $this->fileStore->removeFile($name);  
+        $this->thumbnailStore->removeFile($name);
     }
     
     public function setThumbnailMaker(ThumbnailMakerInterface $thumbnailMaker)

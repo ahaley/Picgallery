@@ -2,75 +2,75 @@
 
 namespace Picgallery;
 
-class PicasaRepository implements ImageRepository
+class PicasaRepository implements ImageRepositoryInterface
 {
-	private $service;
-	private $username;
+    private $service;
+    private $username;
     private $albumRepository;
-	
-	public static function create($googleSession)
-	{
+    
+    public static function create($googleSession)
+    {
         $client = $googleSession->getHttpClient();
 
-		if (null === $client)
-			return null;
-		
-		$service = new \Zend_Gdata_Photos($client);
-		$repository = new PicasaRepository(
+        if (null === $client)
+            return null;
+        
+        $service = new \Zend_Gdata_Photos($client);
+        $repository = new PicasaRepository(
             $service,
             $googleSession->getUsername()
         );
-		return $repository;
-	}
+        return $repository;
+    }
 
-	public function __construct($service = null, $username = null, $albumRepository = null)
-	{
-		$this->service = $service;
-		$this->username = $username;
+    public function __construct($service = null, $username = null, $albumRepository = null)
+    {
+        $this->service = $service;
+        $this->username = $username;
         $this->albumRepository = $albumRepository != null ? $albumRepository 
-        	: new AlbumRepository(new PicasaAlbumAdapter($service, $username));
-	}
+            : new AlbumRepository(new PicasaAlbumAdapter($service, $username));
+    }
 
-	public function imageExists($path)
-	{
+    public function imageExists($path)
+    {
         $feed = $this->albumRepository->getRepositoryImages();
-		foreach ($feed as $entry) {
-			if ($entry instanceof \Zend_Gdata_Photos_PhotoEntry) {
-				if (strpos($path, $entry->getTitleValue()) !== false) {
-					return $entry->getGphotoId();
-				}
-			}
-		}
-		return false;
-	}
+        foreach ($feed as $entry) {
+            if ($entry instanceof \Zend_Gdata_Photos_PhotoEntry) {
+                if (strpos($path, $entry->getTitleValue()) !== false) {
+                    return $entry->getGphotoId();
+                }
+            }
+        }
+        return false;
+    }
 
-	public function uploadImage($title, $mime, $tmp_path)
-	{
-		$service = $this->service;
+    public function uploadImage($title, $mime, $tmp_path)
+    {
+        $service = $this->service;
 
-		$fd = $service->newMediaFileSource($tmp_path);
-		$fd->setContentType($mime);
+        $fd = $service->newMediaFileSource($tmp_path);
+        $fd->setContentType($mime);
 
-		$entry = new \Zend_Gdata_Photos_PhotoEntry();
-		$entry->setMediaSource($fd);
-		$entry->setTitle($service->newTitle($title));
+        $entry = new \Zend_Gdata_Photos_PhotoEntry();
+        $entry->setMediaSource($fd);
+        $entry->setTitle($service->newTitle($title));
 
-		$albumEntry = $this->albumRepository->getRepositoryAlbum();
+        $albumEntry = $this->albumRepository->getRepositoryAlbum();
 
-		$result = $service->insertPhotoEntry($entry, $albumEntry);
+        $result = $service->insertPhotoEntry($entry, $albumEntry);
 
-		return $result;
-	}
+        return $result;
+    }
 
-	public function removeImage($id)
-	{
+    public function removeImage($id)
+    {
         $query = $this->albumRepository->createPhotoQuery();
-		$query->setPhotoId($id);
+        $query->setPhotoId($id);
 
-		$photoEntry = $this->service->getPhotoEntry($query);
+        $photoEntry = $this->service->getPhotoEntry($query);
 
-		$this->service->deletePhotoEntry($photoEntry, true);
-	}
+        $this->service->deletePhotoEntry($photoEntry, true);
+    }
 
     public function getImage($id)
     {

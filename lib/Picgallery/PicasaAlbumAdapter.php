@@ -34,28 +34,28 @@ class PicasaAlbumAdapter implements AlbumAdapter
     public function createAlbum($albumName, $summary = null)
     {
         $service = $this->service;
-		$entry = new \Zend_Gdata_Photos_AlbumEntry();
-		$entry->setTitle($service->newTitle($albumName));
+        $entry = new \Zend_Gdata_Photos_AlbumEntry();
+        $entry->setTitle($service->newTitle($albumName));
         if ($summary != null) {
-		    $entry->setSummary($service->newSummary($summary));
+            $entry->setSummary($service->newSummary($summary));
         }
-		$newEntry = $service->insertAlbumEntry($entry);
+        $newEntry = $service->insertAlbumEntry($entry);
     }
 
     public function getAlbums()
     {
-		$query = new \Zend_GData_Photos_UserQuery();
-		$query->setUser($this->username);
+        $query = new \Zend_GData_Photos_UserQuery();
+        $query->setUser($this->username);
 
         $userFeed = $this->service->getUserFeed(null, $query);
 
-		$albums = array();
-		foreach ($userFeed as $entry) {
-			if ($entry instanceof \Zend_Gdata_Photos_AlbumEntry) {
-				$albums[$entry->getTitle()->getText()] = $entry;
-			}
-		}
-		return $albums;
+        $albums = array();
+        foreach ($userFeed as $entry) {
+            if ($entry instanceof \Zend_Gdata_Photos_AlbumEntry) {
+                $albums[$entry->getTitle()->getText()] = $entry;
+            }
+        }
+        return $albums;
     }
 
     public function getAlbumFeed($albumName)
@@ -67,8 +67,8 @@ class PicasaAlbumAdapter implements AlbumAdapter
     private function createAlbumQuery($albumName)
     {
         $query = new \Zend_Gdata_Photos_AlbumQuery();
-		$query->setUser($this->username);
-		$query->setAlbumName($albumName);
+        $query->setUser($this->username);
+        $query->setAlbumName($albumName);
 //        $query->setImgMax("d");
         return $query;
     }

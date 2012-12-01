@@ -6,11 +6,11 @@ use \Picgallery\AlbumRepository;
 
 class AlbumRepositoryTest extends \PHPUnit_Framework_TestCase
 {
-	/**
-	 * @test
+    /**
+     * @test
      * @covers Picgallery\AlbumRepository::__construct
-	 */
-	public function ShouldCheckForRepoAlbumOnInstantiation()
+     */
+    public function ShouldCheckForRepoAlbumOnInstantiation()
     {
         $albumAdapter = $this->getMock('\Picgallery\AlbumAdapter');
         $albumAdapter->expects($this->once())

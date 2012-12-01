@@ -7,11 +7,11 @@ use Picgallery\ImageUploader;
 
 class ImageUploaderTest extends PHPUnit_Framework_TestCase
 {
-	/**
-	 * @test
-	 */
-	public function ShouldInstantiateImageUploader()
-	{
+    /**
+     * @test
+     */
+    public function ShouldInstantiateImageUploader()
+    {
         $uploader = new ImageUploader(array());
     }
 
