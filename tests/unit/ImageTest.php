@@ -14,6 +14,25 @@ class ImageTest extends \PHPUnit_Framework_TestCase
         $image = new Image();
         $this->assertInstanceOf('Picgallery\Image', $image);
     }
+
+    /**
+     * @test
+     */
+    public function ShouldInstatiateFromPopulateArray()
+    {
+        $values = array(
+            'name' => 'name1',
+            'gallery' => 'gallery1',
+            'url' => '/url1',
+            'thumbnail_url' => '/url1_thumbnail'
+        );
+        $result = Image::populate($values);
+        $this->assertInstanceOf('Picgallery\Image', $result);
+        $this->assertEquals('name1', $result->getName());
+        $this->assertEquals('gallery1', $result->getGallery());
+        $this->assertEquals('/url1', $result->getUrl());
+        $this->assertEquals('/url1_thumbnail', $result->getThumbnailUrl());
+    }
     
     /**
      * @test
