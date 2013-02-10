@@ -3,8 +3,7 @@
 require_once 'SplClassLoader.php';
 require_once __DIR__ . '/../vendor/autoload.php';
 
-define(AWS_KEY, '${aws.key}');
-define(AWS_SECRET, '${aws.secret}');
+require_once 'config.php';
 
 $classLoader = new SplClassLoader('Picgallery', __DIR__);
 $classLoader->register();

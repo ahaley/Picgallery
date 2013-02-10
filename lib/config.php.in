@@ -1,0 +1,4 @@
+<?php
+
+define(AWS_KEY, '${aws.key}');
+define(AWS_SECRET, '${aws.secret}');
