@@ -2,6 +2,17 @@
 
 <project name="stockholme" default="build">
 
+  <target name="config">
+    <property file="build.properties"/>
+
+    <copy file="lib/Picgallery.php.in"
+          tofile="lib/Picgallery.php" overwrite="true">
+      <filterchain>
+        <expandproperties/>
+      </filterchain>
+    </copy>
+  </target>
+
   <target name="build"
     depends="unit-tests,lint,pdepend,phploc,phpcpd" >
   </target>
@@ -14,6 +25,12 @@
     <mkdir dir="build"/>
     <mkdir dir="build/logs"/>
     <mkdir dir="build/pdepend"/>
+  </target>
+
+  <target name="composer">
+    <exec executable="composer">
+      <arg value="install"/>
+    </exec>
   </target>
 
   <target name="unit-tests" depends="dirs">

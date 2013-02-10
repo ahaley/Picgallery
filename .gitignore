@@ -4,3 +4,5 @@ upload
 build
 .DS_Store
 vendor
+build.properties
+lib/Picgallery.php
