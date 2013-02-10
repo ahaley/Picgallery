@@ -15,7 +15,7 @@ class S3FileStoreTest extends \PHPUnit_Framework_TestCase
     public function ShouldUploadFile()
     {
         $store = new S3FileStore('picgallery_tests', 'integration', '');
-        $store->uploadFile('test2', '/Users/ahaley/test');
+        $store->uploadFile('ahaley/thumbnails/test2', '/Users/ahaley/test');
     }
     
     /**

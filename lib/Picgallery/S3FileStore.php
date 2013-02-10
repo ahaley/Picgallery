@@ -29,12 +29,14 @@ class S3FileStore implements FileStoreInterface
         $client = $this->getClient();
         $fp = fopen($path, "r");
     
+        $key = $this->localPath . '/' . $filename;
+    
         $model = $client->putObject(array(
             'Bucket' => $this->bucketName,
-            'Key' => $this->localPath . '/' . $filename,
+            'Key' => $key,
             'Body' => $fp,
             'ACL' => CannedAcl::PUBLIC_READ,
-        ));        
+        ));
         
         fclose($fp);
     }
@@ -46,6 +48,7 @@ class S3FileStore implements FileStoreInterface
     
     public function getFileSize($filename)
     {
+        return 0;
     }
     
     public function removeFile($filename)
@@ -59,6 +62,11 @@ class S3FileStore implements FileStoreInterface
     
     public function listFiles()
     {
+    }
+    
+    public function setClient($client)
+    {
+        $this->client = $client;
     }
     
     private function getClient()
