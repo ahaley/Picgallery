@@ -5,8 +5,8 @@
   <target name="config">
     <property file="build.properties"/>
 
-    <copy file="lib/Picgallery.php.in"
-          tofile="lib/Picgallery.php" overwrite="true">
+    <copy file="lib/config.php.in"
+          tofile="lib/config.php" overwrite="true">
       <filterchain>
         <expandproperties/>
       </filterchain>
