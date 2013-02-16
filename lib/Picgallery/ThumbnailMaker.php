@@ -10,9 +10,10 @@ class ThumbnailMaker implements ThumbnailMakerInterface
         $imageprops = $image->getImageGeometry();
         if ($imageprops['width'] <= 200 && $imageprops['height'] <= 200) {
         } else {
-            $image->resizeImage(200,200, \Imagick::FILTER_LANCZOS, 0.9, true);
+            $image->resizeImage(200, 200, \Imagick::FILTER_LANCZOS, 0.9, true);
         }
-        $destination = '/tmp/' . $name;
+
+        $destination = tempnam(sys_get_temp_dir(), $name);
         $image->writeImage($destination);
         return $destination;
     }

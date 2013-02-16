@@ -19,9 +19,9 @@ class ImageStore implements ImageStoreInterface
     public function upload($name, $type, $path)
     {
         $this->fileStore->uploadFile($name, $path);    
-//        $thumbnailMaker = $this->_getThumbnailMaker();
-//        $thumbnailPath = $thumbnailMaker->createThumbnail($name, $path);
- //       $this->thumbnailStore->uploadFile($name, $thumbnailPath);
+        $thumbnailMaker = $this->_getThumbnailMaker();
+        $thumbnailPath = $thumbnailMaker->createThumbnail($name, $path);
+        $this->thumbnailStore->uploadFile($name, $thumbnailPath);
         return $this->_convertToImage($name);
     }
 
@@ -49,8 +49,8 @@ class ImageStore implements ImageStoreInterface
         $image = new Image();
         $image->setName($name);
         $image->setUrl($this->fileStore->getUrl($name));
-//        $image->setThumbnailUrl($this->thumbnailStore->getUrl($name));
- //       $image->setSize($this->fileStore->getFileSize($name));
+        $image->setThumbnailUrl($this->thumbnailStore->getUrl($name));
+//        $image->setSize($this->fileStore->getFileSize($name));
         return $image;
     }
 }

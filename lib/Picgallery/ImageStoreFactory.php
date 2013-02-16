@@ -26,9 +26,8 @@ class ImageStoreFactory
         $urlBase = 'https://s3.amazonaws.com/';
         $urlPath = $urlBase . $bucketName . '/' . $gallery;
         $thumbPath = $gallery . '/thumbnails';
-        $urlThumbPath = $urlBase . $bucketName . $thumbPath;
+        $urlThumbPath = $urlBase . $bucketName . '/' . $thumbPath;
         
-        /*
         $client = S3Client::factory(array(
             'key' => AWS_KEY,
             'secret' => AWS_SECRET,
@@ -38,12 +37,12 @@ class ImageStoreFactory
         $client->createBucket(array(
             'Bucket' => $bucketName
         ));
-        */
+        
     
         $fileStore = new S3FileStore($bucketName, $gallery, $urlPath);
-    //    $fileStore->setClient($client);
+        $fileStore->setClient($client);
         $thumbStore = new S3FileStore($bucketName, $thumbPath, $urlThumbPath);
-   //     $thumbStore->setClient($client);
+        $thumbStore->setClient($client);
         
         $imageStore = new ImageStore($fileStore, $thumbStore);
         return $imageStore;

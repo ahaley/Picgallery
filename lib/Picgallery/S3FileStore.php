@@ -28,7 +28,9 @@ class S3FileStore implements FileStoreInterface
     {
         $client = $this->getClient();
         $fp = fopen($path, "r");
-    
+        if ($fp === false) {
+            throw new Exception("Could not open file: " . $path . PHP_EOL);
+        }
         $key = $this->localPath . '/' . $filename;
     
         $model = $client->putObject(array(
