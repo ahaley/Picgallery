@@ -1,6 +1,0 @@
-[submodule "vendor/Dropbox"]
-	path = vendor/Dropbox
-	url = https://github.com/BenTheDesigner/Dropbox.git
-[submodule "vendor/aws-sdk-php"]
-	path = vendor/aws-sdk-php
-	url = https://github.com/aws/aws-sdk-php.git

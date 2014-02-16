@@ -33,7 +33,7 @@
     </exec>
   </target>
 
-  <target name="unit-tests" depends="dirs">
+  <target name="unit-tests" depends="dirs,config">
     <phpunit bootstrap="tests/Bootstrap.php" haltonfailure="true">
       <formatter type="summary" usefile="false"/>
       <batchtest>
