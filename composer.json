@@ -1,5 +1,12 @@
 {
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "https://github.com/BenTheDesigner/Dropbox"
+        }
+    ],
     "require": {
-        "aws/aws-sdk-php": "*"
+        "aws/aws-sdk-php": "*",
+        "BenTheDesigner/Dropbox": "@dev"
     }
 }
