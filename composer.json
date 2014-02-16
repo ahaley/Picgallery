@@ -1,4 +1,16 @@
 {
+"name": "ahaley/Picgallery",
+    "type": "library",
+    "description": "PHP Library to abstract the manipulation of image sets",
+    "homepage": "https://github.com/ahaley/Picgallery",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Antonio Haley",
+            "email": "antonio.haley@gmail.com",
+            "role": "Developer"
+        }
+    ],
     "repositories": [
         {
             "type": "vcs",
@@ -6,7 +18,13 @@
         }
     ],
     "require": {
+        "php": ">=5.3.1",
         "aws/aws-sdk-php": "*",
         "BenTheDesigner/Dropbox": "@dev"
+    },
+    "autoload": {
+        "psr-0": {
+            "Picgallery": ""
+        }
     }
 }
